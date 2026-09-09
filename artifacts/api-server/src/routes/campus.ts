@@ -58,10 +58,6 @@ type CampusRole = "student" | "teacher" | "admin" | "staff" | "parent";
 
 type VerificationAuditAction = "submitted" | "approved" | "suspended" | "renewed";
 
-function claimsFor(req: Request): Record<string, unknown> {
-  return (getAuth(req)?.metadata ?? {}) as Record<string, unknown>;
-}
-
 function isAdministrator(req: Request): boolean {
   if (isSuperAdministrator(req)) return true;
   const userId = getAuth(req)?.userId;
@@ -313,6 +309,14 @@ router.patch("/identity/verification/:userId", requireAdministrator, async (req:
     const action = parsedBody.data.action;
     const status: MembershipStatus = action === "suspend" ? "suspended" : "approved";
     const role = parsedBody.data.role ?? (target.role === "teacher" || target.role === "admin" ? target.role : "student");
+    if (role === "admin" && !isSuperAdministrator(req)) {
+      res.status(403).json({ error: "Only a configured super administrator can grant administrator access." });
+      return;
+    }
+    if (target.role === "admin" && role !== "admin" && !isSuperAdministrator(req)) {
+      res.status(403).json({ error: "Only a configured super administrator can change administrator access." });
+      return;
+    }
     const now = new Date();
     const expiresOn = action === "renew" ? "2027-06-30" : target.expiresOn;
     await db.update(campusMembersTable).set({

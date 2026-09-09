@@ -229,7 +229,7 @@ router.patch("/admin/members/:userId", async (req: AuthedRequest, res: Response,
     const membershipStatus = typeof req.body?.membershipStatus === "string" && ["pending","approved","suspended","expired"].includes(req.body.membershipStatus) ? req.body.membershipStatus : undefined;
     const roleStatus = typeof req.body?.roleStatus === "string" && ["pending","approved","suspended","expired"].includes(req.body.roleStatus) ? req.body.roleStatus : undefined;
     const note = typeof req.body?.note === "string" ? req.body.note.trim().slice(0, 500) : null;
-    if (role === "admin" && !isSuperAdministrator(req)) return res.status(403).json({ error: "Only the configured super administrator can grant administrator role." });
+    if ((role === "admin" || (target.role === "admin" && role && role !== "admin")) && !isSuperAdministrator(req)) return res.status(403).json({ error: "Only a configured super administrator can change administrator access." });
     const patch: any = { lastReviewedAt: new Date(), lastReviewNote: note };
     if (role) { patch.role = role; patch.requestedRole = role; }
     const nextMembership = membershipStatus ?? target.membershipStatus;

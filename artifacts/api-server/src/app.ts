@@ -1,5 +1,7 @@
 import express, { type Express, type Request, type Response, type NextFunction } from "express";
 import cors from "cors";
+import helmet from "helmet";
+import { rateLimit } from "express-rate-limit";
 import pinoHttp from "pino-http";
 import { createClient } from "@supabase/supabase-js";
 import router from "./routes";
@@ -12,7 +14,12 @@ if (!supabaseUrl || !supabaseAnonKey) throw new Error("VITE_SUPABASE_URL and VIT
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 app.disable("x-powered-by");
+app.set("trust proxy", 1);
 app.use(pinoHttp({ logger }));
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "same-site" },
+  contentSecurityPolicy: false,
+}));
 const allowedOrigins = new Set((process.env.CORS_ORIGIN ?? "http://localhost:5173").split(",").map((v) => v.trim()).filter(Boolean));
 app.use(cors({
   credentials: true,
@@ -21,8 +28,16 @@ app.use(cors({
     return callback(new Error("Origin not allowed by CORS."));
   },
 }));
-app.use(express.json({ limit: "1mb" }));
-app.use(express.urlencoded({ extended: true, limit: "1mb" }));
+app.use("/api", rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 300,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: { error: "Too many requests. Please try again later." },
+  skip: (req) => req.method === "OPTIONS",
+}));
+app.use(express.json({ limit: "256kb", strict: true }));
+app.use(express.urlencoded({ extended: false, limit: "64kb", parameterLimit: 100 }));
 app.use(async (req: Request & { auth?: import("./lib/authz").AuthUser | null }, _res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) { req.auth = null; return next(); }
@@ -32,7 +47,9 @@ app.use(async (req: Request & { auth?: import("./lib/authz").AuthUser | null }, 
     userId: user.id,
     email: user.email,
     isSignedIn: true,
-    metadata: user.user_metadata ?? {},
+    // User-editable metadata is retained only for non-authoritative profile display.
+    // Authorization is derived from the verified user id/email and server-side data.
+    metadata: {},
   };
   return next();
 });
@@ -44,7 +61,11 @@ app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
     return;
   }
   if (err && typeof err === "object" && "issues" in err) {
-    res.status(400).json({ error: "Invalid request.", details: (err as { issues?: unknown }).issues ?? null });
+    res.status(400).json({ error: "Invalid request." });
+    return;
+  }
+  if (err && typeof err === "object" && "type" in err && (err as { type?: string }).type === "entity.too.large") {
+    res.status(413).json({ error: "Request body is too large." });
     return;
   }
   reqLogError(err);

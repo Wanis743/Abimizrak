@@ -12,7 +12,7 @@ export async function request(path: string, init: RequestInit = {}) {
   const headers = new Headers(init.headers);
   headers.set('Content-Type', 'application/json');
   if (accessToken) headers.set('Authorization', `Bearer ${accessToken}`);
-  const response = await fetch(`${API_URL}/api${path}`, { ...init, headers });
+  const response = await fetch(`${API_URL.replace(/\/$/, '')}/api${path}`, { ...init, headers });
   const body = await response.json().catch(() => null);
   if (!response.ok) throw new Error(body?.error || `Request failed (${response.status})`);
   return body;

@@ -276,7 +276,7 @@ const AppCampusShell = ({ children, role, displayName }: AppCampusShellProps): R
 };
 
 function CampusRouter({ status }: { status: VerificationStatus }) {
-  const role = status.requestedRole as CampusRole;
+  const role: CampusRole = status.isAdministrator ? 'admin' : status.requestedRole as CampusRole;
   return <AppCampusShell role={role} displayName={status.displayName}><Switch><Route path="/"><HomePage /></Route><Route path="/spaces/:spaceId"><SpaceDetailPage /></Route><Route path="/spaces"><SpacesPage /></Route><Route path="/activity"><ActivityPage /></Route><Route path="/academic"><AcademicPage /></Route><Route path="/projects"><ProjectsDirectory /></Route><Route path="/projects/:projectId"><ProjectDetailPage /></Route><Route path="/talent"><TalentGraph /></Route><Route path="/talent/:userId"><PortfolioPage /></Route><Route path="/events"><EventsPage /></Route><Route path="/teacher">{role === 'teacher' || role === 'admin' ? <TeacherWorkspace /> : <Redirect to="/" />}</Route><Route path="/identity"><IdentityPage /></Route><Route path="/admin">{role === 'admin' ? <AdminCenterPage /> : <Redirect to="/" />}</Route><Route path="/admin/verification">{role === 'admin' ? <AdminVerificationPage /> : <Redirect to="/" />}</Route><Route component={NotFound} /></Switch></AppCampusShell>;
 }
 
