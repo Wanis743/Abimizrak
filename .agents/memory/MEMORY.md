@@ -1,0 +1,2 @@
+- [OpenAPI integer compatibility](openapi-zod-compatibility.md) — in this workspace, generated Zod 3 schemas do not support `zod.int()`; use numeric count fields instead.
+- [Preview extension errors](preview-extension-errors.md) — filter `chrome-extension://` stacks from the dev runtime overlay without hiding application errors.

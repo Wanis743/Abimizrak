@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Lycée Abi Mizrak",
+    "slug": "abi-mizrak-campus",
+    "scheme": "abimizrak",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "plugins": [
+      "expo-secure-store"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "dz.abimizrak.campus"
+    },
+    "android": {
+      "package": "dz.abimizrak.campus"
+    }
+  }
+}

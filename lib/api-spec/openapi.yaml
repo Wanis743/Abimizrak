@@ -1,0 +1,1261 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: campus
+    description: Living campus overview and activity
+  - name: spaces
+    description: School, class, club, and project spaces
+  - name: identity
+    description: School identity and credentials
+  - name: verification
+    description: School membership and role verification
+  - name: social
+    description: Contextual school posts
+security:
+  - BearerAuth: []
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+      security: []
+  /campus/home:
+    get:
+      operationId: getCampusHome
+      tags: [campus]
+      summary: Get the role-aware campus home
+      responses:
+        "200":
+          description: Campus home snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CampusHome"
+  /campus/activity:
+    get:
+      operationId: getCampusActivity
+      tags: [campus]
+      summary: Get the latest school activity
+      responses:
+        "200":
+          description: Recent activity items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+  /spaces:
+    get:
+      operationId: getSpaces
+      tags: [spaces]
+      summary: List spaces visible to the current member
+      responses:
+        "200":
+          description: Visible spaces
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Space"
+  /spaces/{spaceId}:
+    get:
+      operationId: getSpace
+      tags: [spaces]
+      summary: Get a space and its current context
+      parameters:
+        - name: spaceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Space detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpaceDetail"
+        "404":
+          description: Space not found
+  /spaces/{spaceId}/join:
+    post:
+      operationId: joinSpace
+      tags: [spaces]
+      summary: Join an eligible school space
+      parameters:
+        - name: spaceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Updated space membership
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpaceMembership"
+  /identity/credential:
+    get:
+      operationId: getIdentityCredential
+      tags: [identity]
+      summary: Get the current member's school credential
+      responses:
+        "200":
+          description: Digital school credential
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Credential"
+  /identity/verification:
+    get:
+      operationId: getVerificationStatus
+      tags: [verification]
+      summary: Get the signed-in member's verification status
+      responses:
+        "200":
+          description: Membership and role verification state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationStatus"
+        "401":
+          description: Authentication required
+  /identity/profile:
+    patch:
+      operationId: updateIdentityProfile
+      tags: [identity]
+      summary: Complete the signed-in member's school profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdentityProfileInput"
+      responses:
+        "200":
+          description: Updated verification state after profile completion
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationStatus"
+        "400":
+          description: Invalid profile information
+        "401":
+          description: Authentication required
+  /identity/verification/requests:
+    get:
+      operationId: getVerificationRequests
+      tags: [verification]
+      summary: List school verification requests for administrators
+      responses:
+        "200":
+          description: Verification requests and audit history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VerificationRequest"
+        "401":
+          description: Authentication required
+        "403":
+          description: Administrator access required
+  /identity/verification/{userId}:
+    patch:
+      operationId: updateVerification
+      tags: [verification]
+      summary: Approve, suspend, or renew a member's school verification
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerificationActionInput"
+      responses:
+        "200":
+          description: Updated verification request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationRequest"
+        "400":
+          description: Invalid verification action
+        "401":
+          description: Authentication required
+        "403":
+          description: Administrator access required
+        "404":
+          description: Verification request not found
+  /social/posts:
+    get:
+      operationId: getSpacePosts
+      tags: [social]
+      summary: List posts in a school space
+      parameters:
+        - name: spaceId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Posts in the space
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+    post:
+      operationId: createPost
+      tags: [social]
+      summary: Create a post in a school context
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostInput"
+      responses:
+        "201":
+          description: Created post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+  /assignments:
+    get:
+      operationId: getAssignments
+      tags: [academic]
+      summary: List assignments for the current user spaces
+      responses:
+        "200":
+          description: List of assignments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assignment"
+    post:
+      operationId: createAssignment
+      tags: [academic]
+      summary: Create an assignment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignmentInput"
+      responses:
+        "201":
+          description: Created assignment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assignment"
+  /assignments/{assignmentId}/submit:
+    post:
+      operationId: submitAssignment
+      tags: [academic]
+      summary: Submit work for an assignment
+      parameters:
+        - name: assignmentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmissionInput"
+      responses:
+        "201":
+          description: Created submission
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Submission"
+  /spaces/{spaceId}/channels/{channelId}/messages:
+    get:
+      operationId: getChannelMessages
+      tags: [social]
+      summary: Get messages for a specific channel
+      parameters:
+        - name: spaceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: channelId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Channel messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChannelMessage"
+    post:
+      operationId: createChannelMessage
+      tags: [social]
+      summary: Send a message to a channel
+      parameters:
+        - name: spaceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: channelId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChannelMessageInput"
+      responses:
+        "201":
+          description: Sent message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelMessage"
+
+  /academic/overview:
+      summary: "GET /academic/overview"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/student/assignments:
+      summary: "GET /academic/student/assignments"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/assignments/{assignmentId}/submission:
+      summary: "POST /academic/assignments/{assignmentId}/submission"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/student/grades:
+      summary: "GET /academic/student/grades"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/student/timetable:
+      summary: "GET /academic/student/timetable"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/student/attendance:
+      summary: "GET /academic/student/attendance"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/classes:
+      summary: "GET /academic/classes"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/classes/{classId}/roster:
+      summary: "GET /academic/classes/{classId}/roster"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/attendance:
+      summary: "POST /academic/attendance"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/classes/{classId}/attendance:
+      summary: "GET /academic/classes/{classId}/attendance"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/timetable:
+      summary: "GET /academic/timetable"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/classes/{classId}/gradebook:
+      summary: "GET /academic/classes/{classId}/gradebook"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/assignments:
+      summary: "GET /academic/assignments"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/assignments/{assignmentId}:
+      summary: "PATCH /academic/assignments/{assignmentId}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/timetable/{id}:
+      summary: "PATCH /academic/timetable/{id}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/grades:
+      summary: "GET /academic/grades"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/classes/{classId}/submissions:
+      summary: "GET /academic/classes/{classId}/submissions"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /academic/submissions/{submissionId}:
+      summary: "PATCH /academic/submissions/{submissionId}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /social/posts/{postId}/discussion:
+      summary: "GET /social/posts/{postId}/discussion"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /social/posts/{postId}/comments:
+      summary: "POST /social/posts/{postId}/comments"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /social/posts/{postId}/reactions:
+      summary: "POST /social/posts/{postId}/reactions"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /moderation/reports:
+      summary: "POST /moderation/reports"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /projects:
+      summary: "GET /projects"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /projects/{projectId}:
+      summary: "GET /projects/{projectId}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /projects/{projectId}/join:
+      summary: "POST /projects/{projectId}/join"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /projects/{projectId}/milestones:
+      summary: "POST /projects/{projectId}/milestones"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /projects/{projectId}/milestones/{milestoneId}:
+      summary: "PATCH /projects/{projectId}/milestones/{milestoneId}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /talent/{userId}/skills:
+      summary: "POST /talent/{userId}/skills"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /talent/{userId}/skills/{skillId}:
+      summary: "DELETE /talent/{userId}/skills/{skillId}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /events:
+      summary: "GET /events"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /events/{eventId}/rsvp:
+      summary: "POST /events/{eventId}/rsvp"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /talent:
+      summary: "GET /talent"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /talent/{userId}:
+      summary: "GET /talent/{userId}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /spaces/{spaceId}/context:
+      summary: "GET /spaces/{spaceId}/context"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /spaces/{spaceId}/applications:
+      summary: "POST /spaces/{spaceId}/applications"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /spaces/{spaceId}/applications/{applicationId}/review:
+      summary: "POST /spaces/{spaceId}/applications/{applicationId}/review"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /notifications:
+      summary: "GET /notifications"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /notifications/read-all:
+      summary: "POST /notifications/read-all"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /notifications/{notificationId}/read:
+      summary: "POST /notifications/{notificationId}/read"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /platform/superadmin:
+      summary: "GET /platform/superadmin"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/overview:
+      summary: "GET /admin/overview"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/academic:
+      summary: "GET /admin/academic"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/academic/years:
+      summary: "POST /admin/academic/years"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/academic/years/{id}:
+      summary: "PATCH /admin/academic/years/{id}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/academic/terms:
+      summary: "POST /admin/academic/terms"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/academic/streams:
+      summary: "POST /admin/academic/streams"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/academic/departments:
+      summary: "POST /admin/academic/departments"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/academic/subjects:
+      summary: "POST /admin/academic/subjects"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/academic/classes:
+      summary: "POST /admin/academic/classes"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/academic/rooms:
+      summary: "POST /admin/academic/rooms"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/staff/students/{userId}:
+      summary: "PATCH /admin/staff/students/{userId}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/staff:
+      summary: "GET /admin/staff"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/attendance/summary:
+      summary: "GET /admin/attendance/summary"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/audit:
+      summary: "GET /admin/audit"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/members:
+      summary: "GET /admin/members"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/members/{userId}:
+      summary: "PATCH /admin/members/{userId}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/notifications/broadcast:
+      summary: "POST /admin/notifications/broadcast"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/events:
+      summary: "GET /admin/events"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/moderation:
+      summary: "GET /admin/moderation"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+  /admin/moderation/{reportId}:
+      summary: "PATCH /admin/moderation/{reportId}"
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    ActivityItem:
+      type: object
+      required: [id, kind, title, detail, time, accent]
+      properties:
+        id: { type: string }
+        kind:
+          type: string
+          enum: [live, announcement, project, event, class, resource]
+        title: { type: string }
+        detail: { type: string }
+        time: { type: string }
+        accent: { type: string }
+        actor: { type: ["string", "null"] }
+    Space:
+      type: object
+      required: [id, name, type, description, members, status, accent, joined]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        type:
+          type: string
+          enum: [school, class, subject, club, project, event]
+        description: { type: string }
+        members: { type: number }
+        status: { type: string }
+        accent: { type: string }
+        joined: { type: boolean }
+    SpaceDetail:
+      allOf:
+        - $ref: "#/components/schemas/Space"
+        - type: object
+          required: [channels, spotlight]
+          properties:
+            channels:
+              type: array
+              items: { type: string }
+            spotlight: { type: string }
+    SpaceMembership:
+      type: object
+      required: [spaceId, joined, memberCount]
+      properties:
+        spaceId: { type: string }
+        joined: { type: boolean }
+        memberCount: { type: number }
+    Credential:
+      type: object
+      required: [id, name, className, role, year, verified, expires, serial]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        className: { type: string }
+        role: { type: string }
+        year: { type: string }
+        verified: { type: boolean }
+        expires: { type: string }
+        serial: { type: string }
+    VerificationStatus:
+      type: object
+      required: [userId, displayName, profileCompleted, membershipStatus, roleStatus, requestedRole, schoolYear, expiresOn, credentialSerial, isAdministrator]
+      properties:
+        userId: { type: string }
+        displayName: { type: string }
+        profileCompleted: { type: boolean }
+        membershipStatus:
+          type: string
+          enum: [pending, approved, suspended, expired]
+        roleStatus:
+          type: string
+          enum: [pending, approved, suspended, expired]
+        requestedRole:
+          type: string
+          enum: [student, teacher, admin]
+        schoolYear: { type: string }
+        expiresOn: { type: string }
+        credentialSerial: { type: ["string", "null"] }
+        isAdministrator: { type: boolean }
+        lastReviewedAt: { type: ["string", "null"] }
+        lastReviewNote: { type: ["string", "null"] }
+    IdentityProfileInput:
+      type: object
+      required: [displayName, className, requestedRole]
+      properties:
+        displayName:
+          type: string
+          minLength: 2
+        className:
+          type: string
+          minLength: 2
+        requestedRole:
+          type: string
+          enum: [student, teacher]
+    VerificationAuditEntry:
+      type: object
+      required: [action, actorUserId, createdAt]
+      properties:
+        action:
+          type: string
+          enum: [submitted, approved, suspended, renewed]
+        actorUserId: { type: string }
+        createdAt: { type: string }
+        note: { type: ["string", "null"] }
+    VerificationRequest:
+      allOf:
+        - $ref: "#/components/schemas/VerificationStatus"
+        - type: object
+          required: [audit]
+          properties:
+            audit:
+              type: array
+              items:
+                $ref: "#/components/schemas/VerificationAuditEntry"
+    VerificationActionInput:
+      type: object
+      required: [action]
+      properties:
+        action:
+          type: string
+          enum: [approve, suspend, renew]
+        role:
+          type: string
+          enum: [student, teacher, admin]
+        note: { type: string, maxLength: 500 }
+    CampusHome:
+      type: object
+      required: [greeting, roleLabel, schoolPulse, nextActions, schedule, spotlight]
+      properties:
+        greeting: { type: string }
+        roleLabel: { type: string }
+        schoolPulse: { type: number }
+        nextActions:
+          type: array
+          items: { type: string }
+        schedule:
+          type: array
+          items:
+            type: object
+            required: [time, subject, room, teacher]
+            properties:
+              time: { type: string }
+              subject: { type: string }
+              room: { type: string }
+              teacher: { type: string }
+        spotlight:
+          type: object
+          required: [title, detail, cta]
+          properties:
+            title: { type: string }
+            detail: { type: string }
+            cta: { type: string }
+    PostInput:
+      type: object
+      required: [spaceId, kind, body]
+      properties:
+        spaceId: { type: string }
+        kind:
+          type: string
+          enum: [discussion, update, resource, project, event]
+        body: { type: string, minLength: 1 }
+    Post:
+      allOf:
+        - $ref: "#/components/schemas/PostInput"
+        - type: object
+          required: [id, author, time]
+          properties:
+            id: { type: string }
+            author: { type: string }
+            time: { type: string }
+
+    AssignmentInput:
+      type: object
+      required: [spaceId, title, description, maxScore]
+      properties:
+        spaceId: { type: string }
+        title: { type: string }
+        description: { type: string }
+        dueDate: { type: ["string", "null"] }
+        maxScore: { type: number }
+    Assignment:
+      allOf:
+        - $ref: "#/components/schemas/AssignmentInput"
+        - type: object
+          required: [id, createdAt]
+          properties:
+            id: { type: string }
+            createdAt: { type: string }
+    SubmissionInput:
+      type: object
+      required: [content]
+      properties:
+        content: { type: string }
+    Submission:
+      allOf:
+        - $ref: "#/components/schemas/SubmissionInput"
+        - type: object
+          required: [id, assignmentId, studentId, submittedAt]
+          properties:
+            id: { type: string }
+            assignmentId: { type: string }
+            studentId: { type: string }
+            score: { type: ["number", "null"] }
+            feedback: { type: ["string", "null"] }
+            submittedAt: { type: string }
+      required: [message, context]
+      properties:
+        message: { type: string }
+        context: { type: string }
+      required: [reply]
+      properties:
+        reply: { type: string }
+
+    ChannelMessageInput:
+      type: object
+      required: [content]
+      properties:
+        content: { type: string }
+    ChannelMessage:
+      allOf:
+        - $ref: "#/components/schemas/ChannelMessageInput"
+        - type: object
+          required: [id, channelId, spaceId, userId, createdAt]
+          properties:
+            id: { type: string }
+            channelId: { type: string }
+            spaceId: { type: string }
+            userId: { type: string }
+            createdAt: { type: string }
