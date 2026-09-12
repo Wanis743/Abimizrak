@@ -119,6 +119,7 @@ import { SpaceDetailPage } from "@/pages/space-detail";
 import { IdentityPage } from "@/pages/identity";
 import { AdminVerificationPage } from "@/pages/admin-verification";
 import { TeacherWorkspace } from "@/components/TeacherWorkspace";
+import PublicLandingPage from "@/components/LandingPage";
 import { LoadingState, ErrorState } from "@/pages/shared";
 
 const queryClient = new QueryClient();
@@ -774,7 +775,7 @@ function AuthRouter() {
       <Switch>
         <Route path="/sign-in/*?" component={SignInPage} />
         <Route path="/sign-up/*?" component={SignUpPage} />
-        <Route component={LandingPage} />
+        <Route component={PublicLandingPage} />
       </Switch>
     );
   return (
