@@ -1,0 +1,11 @@
+{
+  "name": "@abi-mizrak/acceptance",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.115.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.1"
+  }
+}

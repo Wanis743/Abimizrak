@@ -278,3 +278,123 @@ export type GetSpacePostsParams = {
 spaceId: string;
 };
 
+export type GetAcademicOverview200 = { [key: string]: unknown };
+
+export type GetAcademicStudentAssignments200 = { [key: string]: unknown };
+
+export type PostAcademicAssignmentsAssignmentIdSubmission200 = { [key: string]: unknown };
+
+export type GetAcademicStudentGrades200 = { [key: string]: unknown };
+
+export type GetAcademicStudentTimetable200 = { [key: string]: unknown };
+
+export type GetAcademicStudentAttendance200 = { [key: string]: unknown };
+
+export type GetAcademicClasses200 = { [key: string]: unknown };
+
+export type GetAcademicClassesClassIdRoster200 = { [key: string]: unknown };
+
+export type PostAcademicAttendance200 = { [key: string]: unknown };
+
+export type GetAcademicClassesClassIdAttendance200 = { [key: string]: unknown };
+
+export type GetAcademicTimetable200 = { [key: string]: unknown };
+
+export type GetAcademicClassesClassIdGradebook200 = { [key: string]: unknown };
+
+export type GetAcademicAssignments200 = { [key: string]: unknown };
+
+export type PatchAcademicAssignmentsAssignmentId200 = { [key: string]: unknown };
+
+export type PatchAcademicTimetableId200 = { [key: string]: unknown };
+
+export type GetAcademicGrades200 = { [key: string]: unknown };
+
+export type GetAcademicClassesClassIdSubmissions200 = { [key: string]: unknown };
+
+export type PatchAcademicSubmissionsSubmissionId200 = { [key: string]: unknown };
+
+export type GetSocialPostsPostIdDiscussion200 = { [key: string]: unknown };
+
+export type PostSocialPostsPostIdComments200 = { [key: string]: unknown };
+
+export type PostSocialPostsPostIdReactions200 = { [key: string]: unknown };
+
+export type PostModerationReports200 = { [key: string]: unknown };
+
+export type GetProjects200 = { [key: string]: unknown };
+
+export type GetProjectsProjectId200 = { [key: string]: unknown };
+
+export type PostProjectsProjectIdJoin200 = { [key: string]: unknown };
+
+export type PostProjectsProjectIdMilestones200 = { [key: string]: unknown };
+
+export type PatchProjectsProjectIdMilestonesMilestoneId200 = { [key: string]: unknown };
+
+export type PostTalentUserIdSkills200 = { [key: string]: unknown };
+
+export type DeleteTalentUserIdSkillsSkillId200 = { [key: string]: unknown };
+
+export type GetEvents200 = { [key: string]: unknown };
+
+export type PostEventsEventIdRsvp200 = { [key: string]: unknown };
+
+export type GetTalent200 = { [key: string]: unknown };
+
+export type GetTalentUserId200 = { [key: string]: unknown };
+
+export type GetSpacesSpaceIdContext200 = { [key: string]: unknown };
+
+export type PostSpacesSpaceIdApplications200 = { [key: string]: unknown };
+
+export type PostSpacesSpaceIdApplicationsApplicationIdReview200 = { [key: string]: unknown };
+
+export type GetNotifications200 = { [key: string]: unknown };
+
+export type PostNotificationsReadAll200 = { [key: string]: unknown };
+
+export type PostNotificationsNotificationIdRead200 = { [key: string]: unknown };
+
+export type GetPlatformSuperadmin200 = { [key: string]: unknown };
+
+export type GetAdminOverview200 = { [key: string]: unknown };
+
+export type GetAdminAcademic200 = { [key: string]: unknown };
+
+export type PostAdminAcademicYears200 = { [key: string]: unknown };
+
+export type PatchAdminAcademicYearsId200 = { [key: string]: unknown };
+
+export type PostAdminAcademicTerms200 = { [key: string]: unknown };
+
+export type PostAdminAcademicStreams200 = { [key: string]: unknown };
+
+export type PostAdminAcademicDepartments200 = { [key: string]: unknown };
+
+export type PostAdminAcademicSubjects200 = { [key: string]: unknown };
+
+export type PostAdminAcademicClasses200 = { [key: string]: unknown };
+
+export type PostAdminAcademicRooms200 = { [key: string]: unknown };
+
+export type PatchAdminStaffStudentsUserId200 = { [key: string]: unknown };
+
+export type GetAdminStaff200 = { [key: string]: unknown };
+
+export type GetAdminAttendanceSummary200 = { [key: string]: unknown };
+
+export type GetAdminAudit200 = { [key: string]: unknown };
+
+export type GetAdminMembers200 = { [key: string]: unknown };
+
+export type PatchAdminMembersUserId200 = { [key: string]: unknown };
+
+export type PostAdminNotificationsBroadcast200 = { [key: string]: unknown };
+
+export type GetAdminEvents200 = { [key: string]: unknown };
+
+export type GetAdminModeration200 = { [key: string]: unknown };
+
+export type PatchAdminModerationReportId200 = { [key: string]: unknown };
+

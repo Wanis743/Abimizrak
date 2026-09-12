@@ -36,6 +36,55 @@
       "when": 0,
       "tag": "0004_seed_abi_mizrak_school",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1788950000000,
+      "tag": "0005_communications_moderation",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1788950001000,
+      "tag": "0006_harden_campus_governance_rls",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1789180000000,
+      "tag": "0007_facilities_operations",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1789180001000,
+      "tag": "0008_notification_idempotency",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1789180002000,
+      "tag": "0009_channel_unread_accounting",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1789180003000,
+      "tag": "0010_project_administration",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1789180004000,
+      "tag": "0011_threads_presence_operations",
+      "breakpoints": true
     }
   ]
 }

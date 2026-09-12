@@ -50,3 +50,7 @@ Thumbs.db
 .env.*
 !.env.example
 *.local
+
+# Acceptance-test runtime artifacts
+/acceptance/test-results/
+/acceptance/playwright-report/

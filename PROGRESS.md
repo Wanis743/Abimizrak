@@ -135,10 +135,50 @@ Legacy academic tables are currently empty and can be populated through the admi
 - Removed the stale direct `esbuild-plugin-pino` importer reference from the lockfile; API build configuration continues to externalize Pino runtime packages.
 - Static source validation remains dependency-independent because the container cannot access the npm registry and the project has no installed dependency tree.
 - Full `pnpm install`, production build, browser E2E, Android emulator QA, and iOS device QA remain release-environment tasks.
-- Added reproducible migration `0005_harden_campus_governance_rls.sql`; live database now enforces RLS on notifications, social comments/reactions, presence, facility issues, threads, and verification audits.
+- Added reproducible migration `lib/db/drizzle/0006_harden_campus_governance_rls.sql`; repository inspection confirms RLS definitions for notifications, social comments/reactions, presence, facility issues, threads, and verification audits. Live database enforcement remains unverified until deployment credentials are available.
 
 ## 2026-09-08 build-fix pass
 - Fixed `lib/api-client-react/src/custom-fetch.ts` Request/RequestInit typing incompatibility by reconstructing RequestInit when rebasing a Request URL.
 - Removed stale AI-generated `aiChat` client operation and AI chat schemas; active product remains AI-free.
 - Verified extracted source: 208 TS/TSX files, 0 parser diagnostics.
 - Full local package build still requires the user's installed dependency tree; rerun `pnpm build` after replacing this release.
+
+## Phase 12 — isolated acceptance infrastructure (2026-09-11)
+
+- Added a fail-closed acceptance harness restricted by `ACCEPTANCE_ENVIRONMENT_ID=abi-mizrak-acceptance-only` and dedicated Supabase test configuration.
+- Added deterministic `acceptance-p12-` fixture identifiers covering controlled student, teacher, administrator, and non-member authorization boundaries.
+- Added real-client API, RLS, security, Realtime, and Windows Edge browser suites plus root package scripts.
+- Offline fixture validation passes, and the prerequisite gate correctly blocks execution when the isolated environment identity is absent.
+- Live suites remain blocked until a disposable Supabase project, migrations through 0006, five controlled Auth identities, deterministic seeded rows, running API/web services, and Edge are provided. No live authorization, persistence, Realtime, or browser pass is claimed.
+- The production dependency audit remains a release blocker: `image-size` has two HIGH and one MODERATE advisories, vulnerable versions through 2.0.2, and no patched version identified.
+# PHASE 13 — PRODUCT COMPLETENESS / FEATURE DEPTH
+
+- Implemented connected student and teacher academic workflows spanning timetable, attendance, assignments, submissions, review feedback, and grades.
+- Added server-scoped academic persistence and authorization boundaries, notification read state and destinations, operational administration depth, and student-focused mobile parity.
+- Added focused acceptance coverage for the academic lifecycle, notification persistence, API authorization, RLS isolation, and realtime membership.
+- Remaining major gaps are unified discovery, complete notification generation coverage, facilities issue lifecycle depth, channel/thread unread accounting, and broader mobile teacher/admin parity.
+- Added membership-protected channel summaries with per-user unread counts, persistent channel read cursors, RLS ownership policies, and web channel navigation that clears unread state when opened. Thread reply depth and broader mobile teacher/admin parity remain future work.
+- The current conservative scorecard is maintained in PHASE13_SCORECARD.md.
+- Live Supabase acceptance and release validation remain intentionally deferred. The harness continues to fail closed when isolated-environment prerequisites are unavailable.
+- The known image-size@1.2.1 blocker is unchanged.
+
+## Phase 15 - product completion (2026-09-12)
+
+- Closed the three Phase 13 P1 product gaps with membership-authorized unified discovery, duplicate-safe cross-module notifications, and a complete facilities issue lifecycle.
+- Added project creator/administrator controls for membership, visibility, and forward-only status transitions while keeping private discovery and detail access fail-closed.
+- Added persistent per-user channel read cursors, membership-scoped unread summaries, and web mark-read behavior. Thread-specific reply unread depth remains deferred.
+- Added migrations 0007 through 0010 for facilities operations, notification idempotency, channel unread accounting, and project administration. Existing authorization and RLS hardening remain intact.
+- Student-oriented mobile parity remains functional; broader teacher/administrator mobile operations and native device QA remain deferred.
+- Install, typecheck, production build, deterministic fixture validation, fail-closed acceptance prerequisites, dependency audit, and diff checks were exercised in the Windows workspace. Live Supabase multi-user acceptance and release certification remain intentionally deferred.
+- The production dependency gate remains RED because the Expo/Metro path still reaches vulnerable image-size versions with no published patched version identified by the audit.
+- All changes remain uncommitted.
+
+## Phase 17 - final product freeze completion (2026-09-12)
+
+- Completed the final repository-level gap classification in `FINAL_PRODUCT_GAP_AUDIT.md` and recorded the product-freeze decision in `PHASE17_PRODUCT_FREEZE_AUDIT.md`.
+- Confirmed server-backed thread unread cursors/counts, persisted presence heartbeat and stale expiry, facilities lifecycle depth, and project administration boundaries in the current source.
+- Replaced mobile notification mark-all-read fan-out with the atomic `/notifications/read-all` endpoint and added visible failure feedback.
+- Mobile TypeScript verification and `git diff --check` pass after the final integration.
+- Final locally actionable severity state is P0 = 0, P1 = 0, and P2 = 0 confirmed application defects.
+- Product freeze candidate is YES; production release certification remains RED and deferred because the known `image-size` advisory and release-environment acceptance gates remain unresolved.
+- All accumulated changes remain uncommitted.

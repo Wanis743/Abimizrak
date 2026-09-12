@@ -4,13 +4,22 @@
   "license": "MIT",
   "scripts": {
     "build": "pnpm run typecheck && pnpm -r --filter \"./artifacts/abi-mizrak-campus\" --filter \"./artifacts/api-server\" --filter \"./scripts\" --if-present run build",
+    "test:acceptance:prereqs": "node acceptance/bin/prerequisites.mjs",
+    "test:fixtures": "node --test acceptance/tests/fixtures.test.mjs",
+    "test:api": "node --test acceptance/tests/api.test.mjs",
+    "test:security": "node --test acceptance/tests/security.test.mjs",
+    "test:rls": "node --test acceptance/tests/rls.test.mjs",
+    "test:realtime": "node --test acceptance/tests/realtime.test.mjs",
+    "test:e2e": "playwright test --config acceptance/playwright.config.mjs",
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/abi-mizrak-campus\" --filter \"./artifacts/api-server\" --filter \"./scripts\" --if-present run typecheck"
   },
   "private": true,
   "dependencies": {},
   "devDependencies": {
+    "@playwright/test": "1.55.1",
+    "@supabase/supabase-js": "^2.115.0",
     "prettier": "^3.9.6",
-    "typescript": "7.0.2"
+    "typescript": "5.9.2"
   }
 }

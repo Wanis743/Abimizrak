@@ -78,6 +78,12 @@ paths:
                 items:
                   $ref: "#/components/schemas/Space"
   /spaces/{spaceId}:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema:
+          type: string
     get:
       operationId: getSpace
       tags: [spaces]
@@ -98,6 +104,12 @@ paths:
         "404":
           description: Space not found
   /spaces/{spaceId}/join:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema:
+          type: string
     post:
       operationId: joinSpace
       tags: [spaces]
@@ -182,6 +194,12 @@ paths:
         "403":
           description: Administrator access required
   /identity/verification/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
     patch:
       operationId: updateVerification
       tags: [verification]
@@ -282,6 +300,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Assignment"
   /assignments/{assignmentId}/submit:
+    parameters:
+      - name: assignmentId
+        in: path
+        required: true
+        schema:
+          type: string
     post:
       operationId: submitAssignment
       tags: [academic]
@@ -306,6 +330,17 @@ paths:
               schema:
                 $ref: "#/components/schemas/Submission"
   /spaces/{spaceId}/channels/{channelId}/messages:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: channelId
+        in: path
+        required: true
+        schema:
+          type: string
     get:
       operationId: getChannelMessages
       tags: [social]
@@ -360,6 +395,7 @@ paths:
                 $ref: "#/components/schemas/ChannelMessage"
 
   /academic/overview:
+    get:
       summary: "GET /academic/overview"
       security: [{ bearerAuth: [] }]
       responses:
@@ -371,6 +407,7 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/student/assignments:
+    get:
       summary: "GET /academic/student/assignments"
       security: [{ bearerAuth: [] }]
       responses:
@@ -382,6 +419,13 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/assignments/{assignmentId}/submission:
+    parameters:
+      - name: assignmentId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /academic/assignments/{assignmentId}/submission"
       security: [{ bearerAuth: [] }]
       responses:
@@ -393,6 +437,7 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/student/grades:
+    get:
       summary: "GET /academic/student/grades"
       security: [{ bearerAuth: [] }]
       responses:
@@ -404,6 +449,7 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/student/timetable:
+    get:
       summary: "GET /academic/student/timetable"
       security: [{ bearerAuth: [] }]
       responses:
@@ -415,6 +461,7 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/student/attendance:
+    get:
       summary: "GET /academic/student/attendance"
       security: [{ bearerAuth: [] }]
       responses:
@@ -426,6 +473,7 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/classes:
+    get:
       summary: "GET /academic/classes"
       security: [{ bearerAuth: [] }]
       responses:
@@ -437,6 +485,13 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/classes/{classId}/roster:
+    parameters:
+      - name: classId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
       summary: "GET /academic/classes/{classId}/roster"
       security: [{ bearerAuth: [] }]
       responses:
@@ -448,6 +503,7 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/attendance:
+    post:
       summary: "POST /academic/attendance"
       security: [{ bearerAuth: [] }]
       responses:
@@ -459,6 +515,13 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/classes/{classId}/attendance:
+    parameters:
+      - name: classId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
       summary: "GET /academic/classes/{classId}/attendance"
       security: [{ bearerAuth: [] }]
       responses:
@@ -470,6 +533,7 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/timetable:
+    get:
       summary: "GET /academic/timetable"
       security: [{ bearerAuth: [] }]
       responses:
@@ -481,6 +545,13 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/classes/{classId}/gradebook:
+    parameters:
+      - name: classId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
       summary: "GET /academic/classes/{classId}/gradebook"
       security: [{ bearerAuth: [] }]
       responses:
@@ -492,6 +563,7 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/assignments:
+    get:
       summary: "GET /academic/assignments"
       security: [{ bearerAuth: [] }]
       responses:
@@ -503,6 +575,13 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/assignments/{assignmentId}:
+    parameters:
+      - name: assignmentId
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
       summary: "PATCH /academic/assignments/{assignmentId}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -514,6 +593,13 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/timetable/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
       summary: "PATCH /academic/timetable/{id}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -525,6 +611,7 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/grades:
+    get:
       summary: "GET /academic/grades"
       security: [{ bearerAuth: [] }]
       responses:
@@ -536,6 +623,13 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/classes/{classId}/submissions:
+    parameters:
+      - name: classId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
       summary: "GET /academic/classes/{classId}/submissions"
       security: [{ bearerAuth: [] }]
       responses:
@@ -547,6 +641,13 @@ paths:
                 type: object
                 additionalProperties: true
   /academic/submissions/{submissionId}:
+    parameters:
+      - name: submissionId
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
       summary: "PATCH /academic/submissions/{submissionId}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -558,6 +659,13 @@ paths:
                 type: object
                 additionalProperties: true
   /social/posts/{postId}/discussion:
+    parameters:
+      - name: postId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
       summary: "GET /social/posts/{postId}/discussion"
       security: [{ bearerAuth: [] }]
       responses:
@@ -569,6 +677,13 @@ paths:
                 type: object
                 additionalProperties: true
   /social/posts/{postId}/comments:
+    parameters:
+      - name: postId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /social/posts/{postId}/comments"
       security: [{ bearerAuth: [] }]
       responses:
@@ -580,6 +695,13 @@ paths:
                 type: object
                 additionalProperties: true
   /social/posts/{postId}/reactions:
+    parameters:
+      - name: postId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /social/posts/{postId}/reactions"
       security: [{ bearerAuth: [] }]
       responses:
@@ -591,6 +713,7 @@ paths:
                 type: object
                 additionalProperties: true
   /moderation/reports:
+    post:
       summary: "POST /moderation/reports"
       security: [{ bearerAuth: [] }]
       responses:
@@ -602,6 +725,7 @@ paths:
                 type: object
                 additionalProperties: true
   /projects:
+    get:
       summary: "GET /projects"
       security: [{ bearerAuth: [] }]
       responses:
@@ -613,6 +737,13 @@ paths:
                 type: object
                 additionalProperties: true
   /projects/{projectId}:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
       summary: "GET /projects/{projectId}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -624,6 +755,13 @@ paths:
                 type: object
                 additionalProperties: true
   /projects/{projectId}/join:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /projects/{projectId}/join"
       security: [{ bearerAuth: [] }]
       responses:
@@ -635,6 +773,13 @@ paths:
                 type: object
                 additionalProperties: true
   /projects/{projectId}/milestones:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /projects/{projectId}/milestones"
       security: [{ bearerAuth: [] }]
       responses:
@@ -646,6 +791,18 @@ paths:
                 type: object
                 additionalProperties: true
   /projects/{projectId}/milestones/{milestoneId}:
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: milestoneId
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
       summary: "PATCH /projects/{projectId}/milestones/{milestoneId}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -657,6 +814,13 @@ paths:
                 type: object
                 additionalProperties: true
   /talent/{userId}/skills:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /talent/{userId}/skills"
       security: [{ bearerAuth: [] }]
       responses:
@@ -668,6 +832,18 @@ paths:
                 type: object
                 additionalProperties: true
   /talent/{userId}/skills/{skillId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: skillId
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
       summary: "DELETE /talent/{userId}/skills/{skillId}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -679,6 +855,7 @@ paths:
                 type: object
                 additionalProperties: true
   /events:
+    get:
       summary: "GET /events"
       security: [{ bearerAuth: [] }]
       responses:
@@ -690,6 +867,13 @@ paths:
                 type: object
                 additionalProperties: true
   /events/{eventId}/rsvp:
+    parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /events/{eventId}/rsvp"
       security: [{ bearerAuth: [] }]
       responses:
@@ -701,6 +885,7 @@ paths:
                 type: object
                 additionalProperties: true
   /talent:
+    get:
       summary: "GET /talent"
       security: [{ bearerAuth: [] }]
       responses:
@@ -712,6 +897,13 @@ paths:
                 type: object
                 additionalProperties: true
   /talent/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
       summary: "GET /talent/{userId}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -723,6 +915,13 @@ paths:
                 type: object
                 additionalProperties: true
   /spaces/{spaceId}/context:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
       summary: "GET /spaces/{spaceId}/context"
       security: [{ bearerAuth: [] }]
       responses:
@@ -734,6 +933,13 @@ paths:
                 type: object
                 additionalProperties: true
   /spaces/{spaceId}/applications:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /spaces/{spaceId}/applications"
       security: [{ bearerAuth: [] }]
       responses:
@@ -745,6 +951,18 @@ paths:
                 type: object
                 additionalProperties: true
   /spaces/{spaceId}/applications/{applicationId}/review:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: applicationId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /spaces/{spaceId}/applications/{applicationId}/review"
       security: [{ bearerAuth: [] }]
       responses:
@@ -756,6 +974,7 @@ paths:
                 type: object
                 additionalProperties: true
   /notifications:
+    get:
       summary: "GET /notifications"
       security: [{ bearerAuth: [] }]
       responses:
@@ -767,28 +986,27 @@ paths:
                 type: object
                 additionalProperties: true
   /notifications/read-all:
+    post:
       summary: "POST /notifications/read-all"
       security: [{ bearerAuth: [] }]
       responses:
-        "200":
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: true
+        "204":
+          description: All unread notifications were marked as read.
   /notifications/{notificationId}/read:
+    parameters:
+      - name: notificationId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
       summary: "POST /notifications/{notificationId}/read"
       security: [{ bearerAuth: [] }]
       responses:
-        "200":
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: true
+        "204":
+          description: The notification was marked as read.
   /platform/superadmin:
+    get:
       summary: "GET /platform/superadmin"
       security: [{ bearerAuth: [] }]
       responses:
@@ -800,6 +1018,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/overview:
+    get:
       summary: "GET /admin/overview"
       security: [{ bearerAuth: [] }]
       responses:
@@ -811,6 +1030,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/academic:
+    get:
       summary: "GET /admin/academic"
       security: [{ bearerAuth: [] }]
       responses:
@@ -822,6 +1042,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/academic/years:
+    post:
       summary: "POST /admin/academic/years"
       security: [{ bearerAuth: [] }]
       responses:
@@ -833,6 +1054,13 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/academic/years/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
       summary: "PATCH /admin/academic/years/{id}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -844,6 +1072,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/academic/terms:
+    post:
       summary: "POST /admin/academic/terms"
       security: [{ bearerAuth: [] }]
       responses:
@@ -855,6 +1084,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/academic/streams:
+    post:
       summary: "POST /admin/academic/streams"
       security: [{ bearerAuth: [] }]
       responses:
@@ -866,6 +1096,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/academic/departments:
+    post:
       summary: "POST /admin/academic/departments"
       security: [{ bearerAuth: [] }]
       responses:
@@ -877,6 +1108,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/academic/subjects:
+    post:
       summary: "POST /admin/academic/subjects"
       security: [{ bearerAuth: [] }]
       responses:
@@ -888,6 +1120,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/academic/classes:
+    post:
       summary: "POST /admin/academic/classes"
       security: [{ bearerAuth: [] }]
       responses:
@@ -899,6 +1132,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/academic/rooms:
+    post:
       summary: "POST /admin/academic/rooms"
       security: [{ bearerAuth: [] }]
       responses:
@@ -910,6 +1144,13 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/staff/students/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
       summary: "PATCH /admin/staff/students/{userId}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -921,6 +1162,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/staff:
+    get:
       summary: "GET /admin/staff"
       security: [{ bearerAuth: [] }]
       responses:
@@ -932,6 +1174,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/attendance/summary:
+    get:
       summary: "GET /admin/attendance/summary"
       security: [{ bearerAuth: [] }]
       responses:
@@ -943,6 +1186,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/audit:
+    get:
       summary: "GET /admin/audit"
       security: [{ bearerAuth: [] }]
       responses:
@@ -954,6 +1198,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/members:
+    get:
       summary: "GET /admin/members"
       security: [{ bearerAuth: [] }]
       responses:
@@ -965,6 +1210,13 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/members/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
       summary: "PATCH /admin/members/{userId}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -976,6 +1228,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/notifications/broadcast:
+    post:
       summary: "POST /admin/notifications/broadcast"
       security: [{ bearerAuth: [] }]
       responses:
@@ -987,6 +1240,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/events:
+    get:
       summary: "GET /admin/events"
       security: [{ bearerAuth: [] }]
       responses:
@@ -998,6 +1252,7 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/moderation:
+    get:
       summary: "GET /admin/moderation"
       security: [{ bearerAuth: [] }]
       responses:
@@ -1009,6 +1264,13 @@ paths:
                 type: object
                 additionalProperties: true
   /admin/moderation/{reportId}:
+    parameters:
+      - name: reportId
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
       summary: "PATCH /admin/moderation/{reportId}"
       security: [{ bearerAuth: [] }]
       responses:
@@ -1235,14 +1497,6 @@ components:
             score: { type: ["number", "null"] }
             feedback: { type: ["string", "null"] }
             submittedAt: { type: string }
-      required: [message, context]
-      properties:
-        message: { type: string }
-        context: { type: string }
-      required: [reply]
-      properties:
-        reply: { type: string }
-
     ChannelMessageInput:
       type: object
       required: [content]

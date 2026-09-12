@@ -391,3 +391,474 @@ export const CreateChannelMessageResponse = zod.object({
 }))
 
 
+/**
+ * @summary GET /academic/overview
+ */
+export const GetAcademicOverviewResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/student/assignments
+ */
+export const GetAcademicStudentAssignmentsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /academic/assignments/{assignmentId}/submission
+ */
+export const PostAcademicAssignmentsAssignmentIdSubmissionParams = zod.object({
+  "assignmentId": zod.coerce.string()
+})
+
+export const PostAcademicAssignmentsAssignmentIdSubmissionResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/student/grades
+ */
+export const GetAcademicStudentGradesResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/student/timetable
+ */
+export const GetAcademicStudentTimetableResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/student/attendance
+ */
+export const GetAcademicStudentAttendanceResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/classes
+ */
+export const GetAcademicClassesResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/classes/{classId}/roster
+ */
+export const GetAcademicClassesClassIdRosterParams = zod.object({
+  "classId": zod.coerce.string()
+})
+
+export const GetAcademicClassesClassIdRosterResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /academic/attendance
+ */
+export const PostAcademicAttendanceResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/classes/{classId}/attendance
+ */
+export const GetAcademicClassesClassIdAttendanceParams = zod.object({
+  "classId": zod.coerce.string()
+})
+
+export const GetAcademicClassesClassIdAttendanceResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/timetable
+ */
+export const GetAcademicTimetableResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/classes/{classId}/gradebook
+ */
+export const GetAcademicClassesClassIdGradebookParams = zod.object({
+  "classId": zod.coerce.string()
+})
+
+export const GetAcademicClassesClassIdGradebookResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/assignments
+ */
+export const GetAcademicAssignmentsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary PATCH /academic/assignments/{assignmentId}
+ */
+export const PatchAcademicAssignmentsAssignmentIdParams = zod.object({
+  "assignmentId": zod.coerce.string()
+})
+
+export const PatchAcademicAssignmentsAssignmentIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary PATCH /academic/timetable/{id}
+ */
+export const PatchAcademicTimetableIdParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const PatchAcademicTimetableIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/grades
+ */
+export const GetAcademicGradesResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /academic/classes/{classId}/submissions
+ */
+export const GetAcademicClassesClassIdSubmissionsParams = zod.object({
+  "classId": zod.coerce.string()
+})
+
+export const GetAcademicClassesClassIdSubmissionsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary PATCH /academic/submissions/{submissionId}
+ */
+export const PatchAcademicSubmissionsSubmissionIdParams = zod.object({
+  "submissionId": zod.coerce.string()
+})
+
+export const PatchAcademicSubmissionsSubmissionIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /social/posts/{postId}/discussion
+ */
+export const GetSocialPostsPostIdDiscussionParams = zod.object({
+  "postId": zod.coerce.string()
+})
+
+export const GetSocialPostsPostIdDiscussionResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /social/posts/{postId}/comments
+ */
+export const PostSocialPostsPostIdCommentsParams = zod.object({
+  "postId": zod.coerce.string()
+})
+
+export const PostSocialPostsPostIdCommentsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /social/posts/{postId}/reactions
+ */
+export const PostSocialPostsPostIdReactionsParams = zod.object({
+  "postId": zod.coerce.string()
+})
+
+export const PostSocialPostsPostIdReactionsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /moderation/reports
+ */
+export const PostModerationReportsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /projects
+ */
+export const GetProjectsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /projects/{projectId}
+ */
+export const GetProjectsProjectIdParams = zod.object({
+  "projectId": zod.coerce.string()
+})
+
+export const GetProjectsProjectIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /projects/{projectId}/join
+ */
+export const PostProjectsProjectIdJoinParams = zod.object({
+  "projectId": zod.coerce.string()
+})
+
+export const PostProjectsProjectIdJoinResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /projects/{projectId}/milestones
+ */
+export const PostProjectsProjectIdMilestonesParams = zod.object({
+  "projectId": zod.coerce.string()
+})
+
+export const PostProjectsProjectIdMilestonesResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary PATCH /projects/{projectId}/milestones/{milestoneId}
+ */
+export const PatchProjectsProjectIdMilestonesMilestoneIdParams = zod.object({
+  "projectId": zod.coerce.string(),
+  "milestoneId": zod.coerce.string()
+})
+
+export const PatchProjectsProjectIdMilestonesMilestoneIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /talent/{userId}/skills
+ */
+export const PostTalentUserIdSkillsParams = zod.object({
+  "userId": zod.coerce.string()
+})
+
+export const PostTalentUserIdSkillsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary DELETE /talent/{userId}/skills/{skillId}
+ */
+export const DeleteTalentUserIdSkillsSkillIdParams = zod.object({
+  "userId": zod.coerce.string(),
+  "skillId": zod.coerce.string()
+})
+
+export const DeleteTalentUserIdSkillsSkillIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /events
+ */
+export const GetEventsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /events/{eventId}/rsvp
+ */
+export const PostEventsEventIdRsvpParams = zod.object({
+  "eventId": zod.coerce.string()
+})
+
+export const PostEventsEventIdRsvpResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /talent
+ */
+export const GetTalentResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /talent/{userId}
+ */
+export const GetTalentUserIdParams = zod.object({
+  "userId": zod.coerce.string()
+})
+
+export const GetTalentUserIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /spaces/{spaceId}/context
+ */
+export const GetSpacesSpaceIdContextParams = zod.object({
+  "spaceId": zod.coerce.string()
+})
+
+export const GetSpacesSpaceIdContextResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /spaces/{spaceId}/applications
+ */
+export const PostSpacesSpaceIdApplicationsParams = zod.object({
+  "spaceId": zod.coerce.string()
+})
+
+export const PostSpacesSpaceIdApplicationsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /spaces/{spaceId}/applications/{applicationId}/review
+ */
+export const PostSpacesSpaceIdApplicationsApplicationIdReviewParams = zod.object({
+  "spaceId": zod.coerce.string(),
+  "applicationId": zod.coerce.string()
+})
+
+export const PostSpacesSpaceIdApplicationsApplicationIdReviewResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /notifications
+ */
+export const GetNotificationsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /notifications/read-all
+ */
+export const PostNotificationsReadAllResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /notifications/{notificationId}/read
+ */
+export const PostNotificationsNotificationIdReadParams = zod.object({
+  "notificationId": zod.coerce.string()
+})
+
+export const PostNotificationsNotificationIdReadResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /platform/superadmin
+ */
+export const GetPlatformSuperadminResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /admin/overview
+ */
+export const GetAdminOverviewResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /admin/academic
+ */
+export const GetAdminAcademicResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /admin/academic/years
+ */
+export const PostAdminAcademicYearsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary PATCH /admin/academic/years/{id}
+ */
+export const PatchAdminAcademicYearsIdParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const PatchAdminAcademicYearsIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /admin/academic/terms
+ */
+export const PostAdminAcademicTermsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /admin/academic/streams
+ */
+export const PostAdminAcademicStreamsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /admin/academic/departments
+ */
+export const PostAdminAcademicDepartmentsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /admin/academic/subjects
+ */
+export const PostAdminAcademicSubjectsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /admin/academic/classes
+ */
+export const PostAdminAcademicClassesResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /admin/academic/rooms
+ */
+export const PostAdminAcademicRoomsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary PATCH /admin/staff/students/{userId}
+ */
+export const PatchAdminStaffStudentsUserIdParams = zod.object({
+  "userId": zod.coerce.string()
+})
+
+export const PatchAdminStaffStudentsUserIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /admin/staff
+ */
+export const GetAdminStaffResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /admin/attendance/summary
+ */
+export const GetAdminAttendanceSummaryResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /admin/audit
+ */
+export const GetAdminAuditResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /admin/members
+ */
+export const GetAdminMembersResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary PATCH /admin/members/{userId}
+ */
+export const PatchAdminMembersUserIdParams = zod.object({
+  "userId": zod.coerce.string()
+})
+
+export const PatchAdminMembersUserIdResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary POST /admin/notifications/broadcast
+ */
+export const PostAdminNotificationsBroadcastResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /admin/events
+ */
+export const GetAdminEventsResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary GET /admin/moderation
+ */
+export const GetAdminModerationResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * @summary PATCH /admin/moderation/{reportId}
+ */
+export const PatchAdminModerationReportIdParams = zod.object({
+  "reportId": zod.coerce.string()
+})
+
+export const PatchAdminModerationReportIdResponse = zod.record(zod.string(), zod.unknown())
+
+

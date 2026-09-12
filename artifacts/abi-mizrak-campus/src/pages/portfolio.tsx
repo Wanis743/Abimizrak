@@ -1,28 +1,45 @@
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { customFetch } from "@workspace/api-client-react";
 import { useUser } from "@/lib/auth";
 import { useParams } from "wouter";
 import { PageIntro, ErrorState } from "./shared";
-import { LoaderCircle, User, Github, Linkedin, Briefcase, Plus, X } from "lucide-react";
+import {
+  LoaderCircle,
+  User,
+  Github,
+  Linkedin,
+  Briefcase,
+  Plus,
+  X,
+} from "lucide-react";
 import { useState, useEffect } from "react";
+
+type TalentSkill = { id: string; name: string };
+type MemberSkill = { id: string; skill_id: string; skill?: TalentSkill | null };
+type PortfolioResponse = {
+  member?: { display_name?: string | null; role?: string | null } | null;
+  portfolio?: { bio?: string | null; github_url?: string | null; linkedin_url?: string | null; looking_for_team?: boolean | null } | null;
+  allSkills: TalentSkill[];
+  skills: MemberSkill[];
+};
+type PortfolioUpdate = { bio: string; github_url: string; linkedin_url: string; looking_for_team: boolean };
 
 export function PortfolioPage() {
   const { user } = useUser();
   const { userId } = useParams();
   const queryClient = useQueryClient();
-  
+
   const isOwner = user?.id === userId;
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [bio, setBio] = useState("");
   const [github, setGithub] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [seekingTeam, setSeekingTeam] = useState(false);
-  
+
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["portfolio", userId],
-    queryFn: () => customFetch<any>(`/api/talent/${userId}`),
+    queryFn: () => customFetch<PortfolioResponse>(`/api/talent/${userId}`),
     enabled: !!userId,
   });
 
@@ -36,22 +53,33 @@ export function PortfolioPage() {
   }, [data?.portfolio, isEditing]);
 
   const updatePortfolio = useMutation({
-    mutationFn: async (updates: any) => customFetch(`/api/talent/${userId}`, { method: "PUT", body: JSON.stringify(updates) }),
+    mutationFn: async (updates: PortfolioUpdate) =>
+      customFetch(`/api/talent/${userId}`, {
+        method: "PUT",
+        body: JSON.stringify(updates),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["portfolio", userId] });
       queryClient.invalidateQueries({ queryKey: ["talent-graph"] });
       setIsEditing(false);
-    }
+    },
   });
-  
+
   const addSkill = useMutation({
-    mutationFn: async (skillId: string) => customFetch(`/api/talent/${userId}/skills`, { method: "POST", body: JSON.stringify({ skillId, proficiency: "beginner" }) }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["portfolio", userId] })
+    mutationFn: async (skillId: string) =>
+      customFetch(`/api/talent/${userId}/skills`, {
+        method: "POST",
+        body: JSON.stringify({ skillId, proficiency: "beginner" }),
+      }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["portfolio", userId] }),
   });
 
   const removeSkill = useMutation({
-    mutationFn: async (id: string) => customFetch(`/api/talent/${userId}/skills/${id}`, { method: "DELETE" }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["portfolio", userId] })
+    mutationFn: async (id: string) =>
+      customFetch(`/api/talent/${userId}/skills/${id}`, { method: "DELETE" }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["portfolio", userId] }),
   });
 
   const handleSave = () => {
@@ -59,14 +87,21 @@ export function PortfolioPage() {
       bio,
       github_url: github,
       linkedin_url: linkedin,
-      looking_for_team: seekingTeam
+      looking_for_team: seekingTeam,
     });
   };
 
-  if (isLoading) return <div className="flex justify-center py-12"><LoaderCircle className="animate-spin text-[#216F58]" size={32} /></div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center py-12">
+        <LoaderCircle className="animate-spin text-[#216F58]" size={32} />
+      </div>
+    );
   if (isError || !data) return <ErrorState onRetry={() => void refetch()} />;
 
-  const availableSkills = data.allSkills.filter((s: any) => !data.skills.some((ms: any) => ms.skill_id === s.id));
+  const availableSkills = data.allSkills.filter(
+    (s) => !data.skills.some((ms) => ms.skill_id === s.id),
+  );
 
   return (
     <div className="mx-auto max-w-3xl h-full flex flex-col pb-12">
@@ -86,9 +121,12 @@ export function PortfolioPage() {
             )}
           </div>
         </div>
-        
+
         {isOwner && !isEditing && (
-          <button onClick={() => setIsEditing(true)} className="rounded-xl bg-[#E5EFE6] px-4 py-2 text-sm font-bold text-[#216F58] hover:bg-[#DDE8DF]">
+          <button
+            onClick={() => setIsEditing(true)}
+            className="rounded-xl bg-[#E5EFE6] px-4 py-2 text-sm font-bold text-[#216F58] hover:bg-[#DDE8DF]"
+          >
             Edit Profile
           </button>
         )}
@@ -98,11 +136,20 @@ export function PortfolioPage() {
         {/* Status */}
         {(isEditing || seekingTeam) && (
           <div className="rounded-2xl border border-[#D9D1C2] bg-white p-6 shadow-sm">
-            <h2 className="font-display text-lg font-bold text-[#25423A] mb-4">Status</h2>
+            <h2 className="font-display text-lg font-bold text-[#25423A] mb-4">
+              Status
+            </h2>
             {isEditing ? (
               <label className="flex items-center gap-3 cursor-pointer">
-                <input type="checkbox" checked={seekingTeam} onChange={(e) => setSeekingTeam(e.target.checked)} className="h-5 w-5 rounded border-[#D9D1C2] text-[#216F58] focus:ring-[#216F58]" />
-                <span className="font-bold text-[#59706A]">I am looking for a team to join</span>
+                <input
+                  type="checkbox"
+                  checked={seekingTeam}
+                  onChange={(e) => setSeekingTeam(e.target.checked)}
+                  className="h-5 w-5 rounded border-[#D9D1C2] text-[#216F58] focus:ring-[#216F58]"
+                />
+                <span className="font-bold text-[#59706A]">
+                  I am looking for a team to join
+                </span>
               </label>
             ) : (
               <div className="flex items-center gap-2 text-[#216F58] font-bold">
@@ -114,7 +161,9 @@ export function PortfolioPage() {
 
         {/* Bio */}
         <div className="rounded-2xl border border-[#D9D1C2] bg-white p-6 shadow-sm">
-          <h2 className="font-display text-lg font-bold text-[#25423A] mb-4">About Me</h2>
+          <h2 className="font-display text-lg font-bold text-[#25423A] mb-4">
+            About Me
+          </h2>
           {isEditing ? (
             <textarea
               value={bio}
@@ -123,13 +172,17 @@ export function PortfolioPage() {
               className="w-full min-h-[100px] rounded-xl border border-[#D9D1C2] bg-[#FBF9F4] p-3 text-[#25423A] outline-none focus:border-[#216F58] focus:ring-1 focus:ring-[#216F58]"
             />
           ) : (
-            <p className="text-[#59706A] whitespace-pre-wrap">{bio || "No bio provided yet."}</p>
+            <p className="text-[#59706A] whitespace-pre-wrap">
+              {bio || "No bio provided yet."}
+            </p>
           )}
         </div>
 
         {/* Links */}
         <div className="rounded-2xl border border-[#D9D1C2] bg-white p-6 shadow-sm">
-          <h2 className="font-display text-lg font-bold text-[#25423A] mb-4">Links</h2>
+          <h2 className="font-display text-lg font-bold text-[#25423A] mb-4">
+            Links
+          </h2>
           {isEditing ? (
             <div className="space-y-3">
               <div className="flex items-center gap-3">
@@ -156,29 +209,49 @@ export function PortfolioPage() {
           ) : (
             <div className="flex gap-4">
               {github && (
-                <a href={github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-[#59706A] hover:text-[#216F58] font-bold">
+                <a
+                  href={github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 text-[#59706A] hover:text-[#216F58] font-bold"
+                >
                   <Github size={20} /> GitHub
                 </a>
               )}
               {linkedin && (
-                <a href={linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-[#59706A] hover:text-[#216F58] font-bold">
+                <a
+                  href={linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 text-[#59706A] hover:text-[#216F58] font-bold"
+                >
                   <Linkedin size={20} /> LinkedIn
                 </a>
               )}
-              {!github && !linkedin && <span className="text-[#89958F] italic">No links added.</span>}
+              {!github && !linkedin && (
+                <span className="text-[#89958F] italic">No links added.</span>
+              )}
             </div>
           )}
         </div>
 
         {/* Skills */}
         <div className="rounded-2xl border border-[#D9D1C2] bg-white p-6 shadow-sm">
-          <h2 className="font-display text-lg font-bold text-[#25423A] mb-4">Skills</h2>
+          <h2 className="font-display text-lg font-bold text-[#25423A] mb-4">
+            Skills
+          </h2>
           <div className="flex flex-wrap gap-2">
-            {data.skills.map((ms: any) => (
-              <div key={ms.id} className="flex items-center gap-1 rounded-lg bg-[#E5EFE6] px-3 py-1.5 text-sm font-bold text-[#216F58]">
+            {data.skills.map((ms) => (
+              <div
+                key={ms.id}
+                className="flex items-center gap-1 rounded-lg bg-[#E5EFE6] px-3 py-1.5 text-sm font-bold text-[#216F58]"
+              >
                 {ms.skill?.name}
                 {isEditing && (
-                  <button onClick={() => removeSkill.mutate(ms.id)} className="ml-1 rounded-full p-0.5 hover:bg-[#DDE8DF] text-[#1B5D4A]">
+                  <button
+                    onClick={() => removeSkill.mutate(ms.id)}
+                    className="ml-1 rounded-full p-0.5 hover:bg-[#DDE8DF] text-[#1B5D4A]"
+                  >
                     <X size={14} />
                   </button>
                 )}
@@ -188,14 +261,16 @@ export function PortfolioPage() {
               <span className="text-[#89958F] italic">No skills listed.</span>
             )}
           </div>
-          
+
           {isEditing && availableSkills.length > 0 && (
             <div className="mt-6 border-t border-[#E5DED2] pt-4">
-              <h3 className="text-sm font-bold text-[#89958F] mb-3 uppercase tracking-wider">Add a Skill</h3>
+              <h3 className="text-sm font-bold text-[#89958F] mb-3 uppercase tracking-wider">
+                Add a Skill
+              </h3>
               <div className="flex flex-wrap gap-2">
-                {availableSkills.map((s: any) => (
-                  <button 
-                    key={s.id} 
+                {availableSkills.map((s) => (
+                  <button
+                    key={s.id}
                     onClick={() => addSkill.mutate(s.id)}
                     className="flex items-center gap-1 rounded-lg border border-[#D9D1C2] bg-white px-3 py-1.5 text-sm font-bold text-[#59706A] hover:border-[#216F58] hover:text-[#216F58]"
                   >
@@ -209,18 +284,20 @@ export function PortfolioPage() {
 
         {isEditing && (
           <div className="flex justify-end gap-3 mt-8">
-            <button 
+            <button
               onClick={() => setIsEditing(false)}
               className="rounded-xl px-6 py-2 font-bold text-[#59706A] hover:bg-[#E8EEE8]"
             >
               Cancel
             </button>
-            <button 
+            <button
               onClick={handleSave}
               disabled={updatePortfolio.isPending}
               className="rounded-xl bg-[#216F58] px-6 py-2 font-bold text-white hover:bg-[#1B5D4A] disabled:opacity-50 flex items-center gap-2"
             >
-              {updatePortfolio.isPending && <LoaderCircle className="animate-spin" size={16} />}
+              {updatePortfolio.isPending && (
+                <LoaderCircle className="animate-spin" size={16} />
+              )}
               Save Changes
             </button>
           </div>
@@ -229,4 +306,3 @@ export function PortfolioPage() {
     </div>
   );
 }
-
