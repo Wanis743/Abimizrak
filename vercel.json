@@ -2,8 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
   "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm --filter @workspace/abi-mizrak-campus build",
-  "outputDirectory": "artifacts/abi-mizrak-campus/dist/public",
+  "buildCommand": "pnpm --filter @workspace/abi-mizrak-campus build && node -e \"require('node:fs').cpSync('artifacts/abi-mizrak-campus/dist/public','public',{recursive:true})\"",
+  "outputDirectory": "public",
   "rewrites": [
     {
       "source": "/(.*)",
