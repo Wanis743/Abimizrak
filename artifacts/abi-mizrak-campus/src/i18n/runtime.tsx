@@ -47,27 +47,18 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     writeStored("abi-locale", locale);
   }, [locale]);
 
-  const setTheme = (next: Theme) => {
-    setThemeState(next);
-    document.documentElement.classList.toggle("dark", next === "dark");
-    document.documentElement.dataset.theme = next;
-    window.localStorage.setItem("abi-theme", next);
-  };
-
-  // Apply theme on mount
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.dataset.theme = theme;
     window.localStorage.setItem("abi-theme", theme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [theme]);
 
   const value = useMemo<PreferencesContextValue>(() => ({
     locale,
     theme,
     direction: getDirection(locale),
     setLocale: setLocaleState,
-    setTheme,
+    setTheme: setThemeState,
     t: (key, values) => interpolate(messages[locale][key] ?? messages.en[key], values),
   }), [locale, theme]);
 

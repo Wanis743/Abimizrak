@@ -82,20 +82,20 @@ export function LiquidCampusLayout({
       <header className="fixed inset-x-0 top-0 z-50 mx-auto flex h-16 items-center gap-3 px-3 md:hidden">
         <div className="liquid-surface flex h-12 flex-1 items-center justify-between rounded-full px-3">
           <div className="min-w-0 truncate text-sm font-bold">
-            Lycée Abi Mizrak
+            {t("app.schoolName")}
           </div>
           <div className="flex items-center gap-1">
             <button
               className="lc-icon-button"
               onClick={() => setCommandOpen(true)}
-              aria-label="Search"
+              aria-label={t("search.label")}
             >
               <Search size={17} />
             </button>
             <button
               className="lc-icon-button"
               onClick={() => setMobileOpen((v) => !v)}
-              aria-label="Open navigation"
+              aria-label={t("nav.settings")}
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -128,7 +128,7 @@ export function LiquidCampusLayout({
             <button
               className="lc-icon-button relative"
               onClick={() => setNotificationsOpen((v) => !v)}
-              aria-label="Notifications"
+              aria-label={t("notifications.label")}
             >
               <Bell size={17} />
               {notifications.some((n) => !n.readAt) && (
@@ -153,9 +153,9 @@ export function LiquidCampusLayout({
         <div className="fixed right-4 top-20 z-[70] w-[min(92vw,390px)] liquid-surface rounded-[24px] p-4 shadow-2xl">
           <div className="flex items-center justify-between gap-3 border-b border-[var(--lc-line)] pb-3">
             <div>
-              <div className="lc-eyebrow">Campus inbox</div>
+              <div className="lc-eyebrow">{t("notifications.inbox")}</div>
               <div className="font-display text-lg font-bold">
-                Notifications
+                {t("notifications.label")}
               </div>
             </div>
             <button
@@ -177,13 +177,13 @@ export function LiquidCampusLayout({
               }}
             >
               <CheckCheck size={15} className="mr-1 inline" />
-              Mark all read
+              {t("notifications.markAllRead")}
             </button>
           </div>
           <div className="mt-3 max-h-[55vh] space-y-2 overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-[var(--lc-line)] p-6 text-sm text-[var(--lc-muted)]">
-                You are all caught up.
+                {t("notifications.allCaughtUp")}
               </div>
             ) : (
               notifications.map((n) => (

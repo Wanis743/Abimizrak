@@ -10,6 +10,7 @@ import {
   LoaderCircle,
   Plus,
 } from "lucide-react";
+import { usePreferences } from "@/i18n/runtime";
 
 const typeIcon: Record<
   string,
@@ -34,6 +35,7 @@ const accent = (name?: string) => {
 export function ServerSidebar() {
   const [location] = useLocation();
   const { data, isLoading } = useGetSpaces();
+  const { t } = usePreferences();
   const spaces = data || [];
 
   // Only show spaces the user has joined for the sidebar
@@ -97,7 +99,7 @@ export function ServerSidebar() {
       <Link href="/spaces">
         <div
           className="group relative flex mt-2 w-full justify-center"
-          title="Discover Spaces"
+          title={t("sidebar.discoverSpaces")}
         >
           <button className="flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-[var(--lc-line)] text-[var(--lc-muted)] transition-all hover:rounded-[16px] hover:border-[hsl(var(--lc-accent)/.55)] hover:bg-[hsl(var(--lc-accent)/.10)] hover:text-[var(--lc-accent)]">
             <Plus size={20} />
