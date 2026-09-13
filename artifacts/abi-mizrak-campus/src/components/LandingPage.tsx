@@ -5,10 +5,10 @@ import { getDirection, resolveLocale, type Locale } from "@/i18n";
 type Theme = "light" | "dark";
 
 const copy = {
-  en: { eyebrow: "Lycée Abi Mizrak · Bou Saâda", title: "A digital campus built for every school day.", body: "One trusted place for learning, collaboration, projects, events, and the people who make our school community thrive.", signIn: "Sign in", join: "Create account", explore: "Explore the campus", trusted: "Verified school community", connected: "Students and teachers, connected", location: "Bou Saâda, Algeria" },
-  fr: { eyebrow: "Lycée Abi Mizrak · Bou Saâda", title: "Un campus numérique pensé pour chaque journée scolaire.", body: "Un espace de confiance pour apprendre, collaborer, créer des projets, suivre les événements et faire vivre notre communauté scolaire.", signIn: "Se connecter", join: "Créer un compte", explore: "Découvrir le campus", trusted: "Communauté scolaire vérifiée", connected: "Élèves et enseignants, réunis", location: "Bou Saâda, Algérie" },
-  es: { eyebrow: "Lycée Abi Mizrak · Bou Saâda", title: "Un campus digital para cada día de aprendizaje.", body: "Un lugar de confianza para aprender, colaborar, crear proyectos, seguir eventos y fortalecer nuestra comunidad escolar.", signIn: "Iniciar sesión", join: "Crear cuenta", explore: "Explorar el campus", trusted: "Comunidad escolar verificada", connected: "Estudiantes y docentes, conectados", location: "Bou Saâda, Argelia" },
-  ar: { eyebrow: "ثانوية أبي مزراق · بوسعادة", title: "فضاء رقمي يرافق كل يوم دراسي.", body: "مكان موثوق للتعلّم والتعاون والمشاريع والفعاليات، يجمع كل أفراد مجتمعنا المدرسي.", signIn: "تسجيل الدخول", join: "إنشاء حساب", explore: "اكتشف الحرم الرقمي", trusted: "مجتمع مدرسي موثّق", connected: "التلاميذ والأساتذة، معاً", location: "بوسعادة، الجزائر" },
+  en: { eyebrow: "Lycée Abi Mizrak · Bou Saâda", title: "A digital campus built for every school day.", body: "One trusted place for learning, collaboration, projects, events, and the people who make our school community thrive.", signIn: "Sign in", join: "Create account", explore: "Explore the campus", trusted: "Verified school community", connected: "Students and teachers, connected", location: "Bou Saâda, Algeria", previewLabel: "Your school, in motion", previewBody: "A shared place for the work, people, and moments that shape lycée life." },
+  fr: { eyebrow: "Lycée Abi Mizrak · Bou Saâda", title: "Un campus numérique pensé pour chaque journée scolaire.", body: "Un espace de confiance pour apprendre, collaborer, créer des projets, suivre les événements et faire vivre notre communauté scolaire.", signIn: "Se connecter", join: "Créer un compte", explore: "Découvrir le campus", trusted: "Communauté scolaire vérifiée", connected: "Élèves et enseignants, réunis", location: "Bou Saâda, Algérie", previewLabel: "Votre lycée, en mouvement", previewBody: "Un espace partagé pour les projets, les personnes et les moments qui font la vie du lycée." },
+  es: { eyebrow: "Lycée Abi Mizrak · Bou Saâda", title: "Un campus digital para cada día de aprendizaje.", body: "Un lugar de confianza para aprender, colaborar, crear proyectos, seguir eventos y fortalecer nuestra comunidad escolar.", signIn: "Iniciar sesión", join: "Crear cuenta", explore: "Explorar el campus", trusted: "Comunidad escolar verificada", connected: "Estudiantes y docentes, conectados", location: "Bou Saâda, Argelia", previewLabel: "Tu instituto, en movimiento", previewBody: "Un espacio compartido para los proyectos, las personas y los momentos de la vida escolar." },
+  ar: { eyebrow: "ثانوية أبي مزراق · بوسعادة", title: "فضاء رقمي يرافق كل يوم دراسي.", body: "مكان موثوق للتعلّم والتعاون والمشاريع والفعاليات، يجمع كل أفراد مجتمعنا المدرسي.", signIn: "تسجيل الدخول", join: "إنشاء حساب", explore: "اكتشف الحرم الرقمي", trusted: "مجتمع مدرسي موثّق", connected: "التلاميذ والأساتذة، معاً", location: "بوسعادة، الجزائر", previewLabel: "ثانويتك، في حركة مستمرة", previewBody: "مساحة مشتركة للمشاريع والأشخاص واللحظات التي تصنع الحياة المدرسية." },
 } as const;
 
 const languageLabels: Record<Locale, string> = { en: "EN", fr: "FR", ar: "AR", es: "ES" };
@@ -32,23 +32,19 @@ export function PublicPreferences() {
   return (
     <div className="public-switchers" aria-label="Display preferences">
       <div className="language-switcher" aria-label="Language">
-        <Globe2 size={16} aria-hidden="true" />
-        {Object.entries(languageLabels).map(([value, label]) => (
-          <button key={value} type="button" className={locale === value ? "active" : ""} aria-pressed={locale === value} onClick={() => setLocale(value as Locale)}>{label}</button>
-        ))}
+        <Globe2 size={15} aria-hidden="true" />
+        {Object.entries(languageLabels).map(([value, label]) => <button key={value} type="button" className={locale === value ? "active" : ""} aria-pressed={locale === value} onClick={() => setLocale(value as Locale)}>{label}</button>)}
       </div>
       <button type="button" className="theme-switcher" aria-label={theme === "dark" ? "Use light theme" : "Use dark theme"} onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-        {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+        {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
       </button>
     </div>
   );
 }
 
 export function PublicBrand() {
-  return createElement(
-    "a",
-    { href: "/", className: "public-brand", "aria-label": "Lycée Abi Mizrak home" },
-    <span className="public-brand-mark" aria-hidden="true" />,
+  return createElement("a", { href: "/", className: "public-brand", "aria-label": "Lycée Abi Mizrak home" },
+    <span className="public-brand-mark" aria-hidden="true"><i /><i /><i /></span>,
     <span><strong>Lycée Abi Mizrak</strong><small>Bou Saâda · Digital Campus</small></span>,
   );
 }
@@ -64,17 +60,18 @@ export default function LandingPage() {
 
   return (
     <main className="public-page landing-page">
-      <div className="motion-orb orb-one" /><div className="motion-orb orb-two" /><div className="motion-streak" />
+      <div className="landing-grain" aria-hidden="true" /><div className="motion-orb orb-one" aria-hidden="true" /><div className="motion-orb orb-two" aria-hidden="true" /><div className="motion-streak" aria-hidden="true" />
       <header className="public-header">
         <PublicBrand />
         <nav className="public-actions" aria-label="Public navigation">
           <PublicPreferences />
           {createElement("a", { href: "/sign-in", className: "public-sign-in" }, text.signIn)}
+          {createElement("a", { href: "/sign-up", className: "public-header-cta" }, text.join, <ArrowRight size={15} />)}
         </nav>
       </header>
       <section className="hero-shell">
         <div className="hero-copy">
-          <div className="hero-eyebrow"><Sparkles size={15} />{text.eyebrow}</div>
+          <div className="hero-eyebrow"><Sparkles size={14} />{text.eyebrow}</div>
           <h1>{text.title}</h1>
           <p className="hero-lede">{text.body}</p>
           <div className="hero-ctas">
@@ -83,18 +80,19 @@ export default function LandingPage() {
           </div>
           <div className="hero-proof"><span><ShieldCheck size={17} />{text.trusted}</span><span><UsersRound size={17} />{text.connected}</span></div>
         </div>
-        <div className="hero-visual" aria-label="Abi Mizrak digital campus preview">
-          <div className="preview-glow" />
+        <div className="hero-visual" aria-label={text.previewLabel}>
+          <div className="visual-caption"><span className="caption-dot" /> <span><strong>{text.previewLabel}</strong><small>{text.previewBody}</small></span></div>
           <div className="preview-card main-preview">
-            <div className="preview-top"><span className="preview-logo" aria-hidden="true" /><span><small>WELCOME TO</small><strong>Abi Mizrak Campus</strong></span><span className="live-pill"><i /> LIVE</span></div>
-            <div className="preview-grid"><div className="preview-feature green"><strong>Learning spaces</strong><small>Classes, resources, progress</small></div><div className="preview-feature gold"><strong>Projects</strong><small>Ideas built together</small></div></div>
-            <div className="preview-community"><div className="avatar-stack"><span>A</span><span>M</span><span>S</span></div><p><strong>School community</strong><small>{text.location}</small></p><ArrowRight size={18} /></div>
+            <div className="preview-top"><span className="preview-logo" aria-hidden="true">A</span><span><small>WELCOME TO</small><strong>Abi Mizrak Campus</strong></span><span className="live-pill"><i /> LIVE</span></div>
+            <div className="preview-nav"><span className="selected">Overview</span><span>Spaces</span><span>Activity</span><span>Identity</span></div>
+            <div className="preview-grid"><div className="preview-feature green"><span className="feature-index">01</span><strong>Learning spaces</strong><small>Classes, resources, progress</small><ArrowRight size={15} /></div><div className="preview-feature gold"><span className="feature-index">02</span><strong>Projects</strong><small>Ideas built together</small><ArrowRight size={15} /></div></div>
+            <div className="preview-community"><div className="avatar-stack"><span>A</span><span>M</span><span>S</span><b>+</b></div><p><strong>School community</strong><small>{text.location}</small></p><ArrowRight size={18} /></div>
           </div>
-          <div className="floating-card floating-one"><ShieldCheck size={20} /><span><strong>Private &amp; verified</strong><small>School-first access</small></span></div>
-          <div className="floating-card floating-two"><UsersRound size={20} /><span><strong>Always connected</strong><small>One shared campus</small></span></div>
+          <div className="floating-card floating-one"><ShieldCheck size={19} /><span><strong>Private &amp; verified</strong><small>School-first access</small></span></div>
+          <div className="floating-card floating-two"><UsersRound size={19} /><span><strong>Always connected</strong><small>One shared campus</small></span></div>
         </div>
       </section>
-      <footer className="public-footer"><span>© Lycée Abi Mizrak El-Mezrani</span><span>{text.location}</span></footer>
+      <footer className="public-footer"><span>© Lycée Abi Mizrak El-Mezrani</span><span>{text.location}</span><span>Built for belonging.</span></footer>
     </main>
   );
 }
