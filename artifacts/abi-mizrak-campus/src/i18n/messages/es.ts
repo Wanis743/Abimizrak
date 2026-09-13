@@ -20,4 +20,9 @@ export const es = {
   "landing.step3.title": "Únete al liceo",
   "landing.step3.detail": "Los miembros aprobados acceden a espacios, actividades y credenciales.",
   "auth.campus": "Bou Saâda · Campus digital",
+  "landing.tagline": "Donde el liceo vive — en línea.",
+  "landing.feature.verified": "Solo miembros verificados",
+  "landing.feature.realtime": "Vida del campus en tiempo real",
+  "landing.feature.identity": "Credenciales de identidad digital",
+  "landing.explore": "Explorar el campus",
 } satisfies Record<MessageKey, string>;

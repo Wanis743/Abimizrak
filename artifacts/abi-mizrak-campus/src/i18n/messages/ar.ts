@@ -20,4 +20,9 @@ export const ar = {
   "landing.step3.title": "انضم إلى الثانوية",
   "landing.step3.detail": "يصل الأعضاء المعتمدون إلى المساحات والأنشطة والاعتماد المدرسي.",
   "auth.campus": "بوسعادة · الحرم الرقمي",
+  "landing.tagline": "حيث تعيش الثانوية — عبر الإنترنت.",
+  "landing.feature.verified": "للأعضاء المعتمدين فقط",
+  "landing.feature.realtime": "حياة جامعية فورية",
+  "landing.feature.identity": "وثائق هوية رقمية",
+  "landing.explore": "استكشف الحرم",
 } satisfies Record<MessageKey, string>;

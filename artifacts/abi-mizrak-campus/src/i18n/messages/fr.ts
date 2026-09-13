@@ -20,4 +20,9 @@ export const fr = {
   "landing.step3.title": "Rejoindre le lycée",
   "landing.step3.detail": "Les membres approuvés accèdent aux espaces, activités et justificatifs de l’établissement.",
   "auth.campus": "Bou Saâda · Campus numérique",
+  "landing.tagline": "Là où le lycée vit — en ligne.",
+  "landing.feature.verified": "Membres vérifiés uniquement",
+  "landing.feature.realtime": "Vie du campus en temps réel",
+  "landing.feature.identity": "Identité numérique certifiée",
+  "landing.explore": "Explorer le campus",
 } satisfies Record<MessageKey, string>;

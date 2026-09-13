@@ -48,6 +48,11 @@ export const en = {
   "landing.step3.title": "Join the lycée",
   "landing.step3.detail": "Approved members can access school spaces, activity, and their credential.",
   "auth.campus": "Bou Saâda · Digital Campus",
+  "landing.tagline": "Where the lycée lives — online.",
+  "landing.feature.verified": "Verified members only",
+  "landing.feature.realtime": "Real-time campus life",
+  "landing.feature.identity": "Digital identity credentials",
+  "landing.explore": "Explore the campus",
 } as const;
 
 export type MessageKey = keyof typeof en;

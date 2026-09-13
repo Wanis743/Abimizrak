@@ -167,18 +167,18 @@ function accent(accentName: string | undefined, fallback = "#216F58") {
 function LogoMark() {
   return (
     <div className="flex items-center gap-3" data-testid="brand-campus">
-      <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-[14px] bg-[#F9F6F0] shadow-[4px_4px_0_#D99A2B]">
+      <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-[16px] bg-[#F9F6F0] shadow-[4px_4px_0_#D99A2B] dark:bg-[#1a2a26]">
         <img
           src={`${basePath}/school-logo-mark.png`}
           alt=""
-          className="h-full w-full object-contain"
+          className="h-full w-full object-contain p-1"
         />
       </div>
       <div className="leading-none">
-        <div className="font-display text-[15px] font-bold tracking-[-0.04em]">
+        <div className="font-display text-[15px] font-bold tracking-[-0.04em] text-[hsl(var(--lc-ink))]">
           LYCÉE ABI MIZRAK
         </div>
-        <div className="mt-1 font-mono-campus text-[9px] uppercase tracking-[0.17em] text-[#6D7A75]">
+        <div className="mt-1 font-mono-campus text-[9px] uppercase tracking-[0.17em] text-[hsl(var(--lc-muted))]">
           digital campus
         </div>
       </div>
@@ -188,38 +188,61 @@ function LogoMark() {
 
 function LandingPage() {
   const { t } = usePreferences();
+  const steps = [
+    { num: "01", icon: LockKeyhole, title: t("landing.step1.title"), detail: t("landing.step1.detail") },
+    { num: "02", icon: UserCheck, title: t("landing.step2.title"), detail: t("landing.step2.detail") },
+    { num: "03", icon: DoorOpen, title: t("landing.step3.title"), detail: t("landing.step3.detail") },
+  ];
+  const features = [
+    { icon: ShieldCheck, label: t("landing.feature.verified") },
+    { icon: Radio, label: t("landing.feature.realtime") },
+    { icon: FileBadge2, label: t("landing.feature.identity") },
+  ];
   return (
     <div className="campus-shell landing-page flex min-h-[100dvh] flex-col">
-      <header className="flex items-center justify-between border-b border-[var(--lc-line)] px-5 py-5 md:px-12">
+      {/* Animated background orbs */}
+      <div className="landing-orbs" aria-hidden="true">
+        <div className="landing-orb landing-orb-1 animate-float-orb" />
+        <div className="landing-orb landing-orb-2 animate-float-orb" style={{ animationDelay: "-6s" }} />
+        <div className="landing-orb landing-orb-3 animate-float-orb" style={{ animationDelay: "-12s" }} />
+      </div>
+
+      <header className="relative z-10 flex items-center justify-between border-b border-[hsl(var(--lc-line))] px-5 py-5 md:px-12">
         <LogoMark />
         <div className="flex items-center gap-2 sm:gap-3">
           <PreferencesSwitcher compact />
           <Link
             href="/sign-in"
-            className="rounded-xl px-4 py-2.5 text-sm font-bold text-[#59706A] hover:bg-[#E8EEE8]"
+            className="rounded-xl px-4 py-2.5 text-sm font-bold text-[hsl(var(--lc-muted))] hover:bg-[hsl(var(--lc-surface)/0.5)]"
             data-testid="link-sign-in"
           >
             {t("account.signIn")}
           </Link>
           <Link
             href="/sign-up"
-            className="rounded-xl bg-[#216F58] px-4 py-2.5 text-sm font-bold text-[#F5F0E6] shadow-[3px_3px_0_#D99A2B] hover:bg-[#1B5D4A]"
+            className="rounded-xl bg-[#216F58] px-4 py-2.5 text-sm font-bold text-[#F5F0E6] shadow-[3px_3px_0_#D99A2B] transition-all hover:bg-[#1B5D4A] hover:shadow-[4px_4px_0_#D99A2B] dark:bg-[hsl(169_68%_42%)] dark:hover:bg-[hsl(169_68%_36%)]"
             data-testid="link-sign-up"
           >
             {t("account.create")}
           </Link>
         </div>
       </header>
-      <main className="mx-auto flex w-full max-w-[1180px] flex-1 items-center px-5 py-14 md:px-10 md:py-20">
+
+      <main className="relative z-10 mx-auto flex w-full max-w-[1180px] flex-1 items-center px-5 py-14 md:px-10 md:py-20">
         <div className="grid w-full gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
-          <section className="reveal">
-            <div className="mb-4 font-mono-campus text-[10px] font-bold uppercase tracking-[.2em] text-[#E76F51]">
+          {/* Hero copy */}
+          <section className="animate-fade-up">
+            <div className="mb-4 flex items-center gap-2 font-mono-campus text-[10px] font-bold uppercase tracking-[.2em] text-[#E76F51]">
+              <Sparkles size={13} />
               {t("landing.eyebrow")}
             </div>
-            <h1 className="max-w-3xl font-display text-5xl font-bold leading-[.98] tracking-[-.07em] text-[#18332C] md:text-7xl">
-              {t("landing.title")}
+            <h1 className="max-w-3xl font-display text-5xl font-bold leading-[.98] tracking-[-.07em] md:text-7xl">
+              <span className="shimmer-text">{t("landing.title")}</span>
             </h1>
-            <p className="mt-7 max-w-xl text-lg leading-8 text-[#6C7D76]">
+            <p className="mt-3 font-display text-lg font-semibold text-[hsl(var(--lc-accent))]">
+              {t("landing.tagline")}
+            </p>
+            <p className="mt-5 max-w-xl text-lg leading-8 text-[hsl(var(--lc-muted))]">
               {t("landing.description")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -230,45 +253,46 @@ function LandingPage() {
               >
                 {t("landing.signIn")} <ArrowUpRight size={16} />
               </Link>
-              <span className="inline-flex items-center gap-2 text-xs font-bold text-[#72817C]">
-                <ShieldCheck size={15} className="text-[#216F58]" />
-                {t("landing.affiliation")}
-              </span>
+              <Link
+                href="/sign-up"
+                className="inline-flex items-center gap-2 rounded-xl border border-[hsl(var(--lc-line))] px-5 py-3.5 text-sm font-bold text-[hsl(var(--lc-ink))] transition-all hover:bg-[hsl(var(--lc-surface)/0.5)]"
+              >
+                {t("landing.explore")} <Compass size={16} />
+              </Link>
+            </div>
+            {/* Feature strip */}
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+              {features.map((f) => (
+                <span key={f.label} className="inline-flex items-center gap-2 text-xs font-bold text-[hsl(var(--lc-muted))]">
+                  <f.icon size={15} className="text-[hsl(var(--lc-accent))]" />
+                  {f.label}
+                </span>
+              ))}
             </div>
           </section>
-          <section className="campus-grid relative overflow-hidden rounded-[28px] bg-[#E8EEE8] p-7 shadow-[var(--shadow-deep)] md:p-10">
+
+          {/* Step cards */}
+          <section className="campus-grid landing-steps relative overflow-hidden rounded-[28px] p-7 shadow-[0_24px_70px_hsl(var(--lc-shadow)/0.14)] md:p-10 animate-scale-in delay-2">
             <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full border-[35px] border-[#D99A2B]/20" />
             <div className="relative space-y-4">
-              {[
-                [
-                  "01",
-                  t("landing.step1.title"),
-                  t("landing.step1.detail"),
-                ],
-                [
-                  "02",
-                  t("landing.step2.title"),
-                  t("landing.step2.detail"),
-                ],
-                [
-                  "03",
-                  t("landing.step3.title"),
-                  t("landing.step3.detail"),
-                ],
-              ].map(([number, title, detail]) => (
+              {steps.map((step, i) => (
                 <div
-                  className="paper-card flex gap-4 rounded-2xl p-5"
-                  key={number}
+                  className="paper-card lift flex items-start gap-4 rounded-2xl p-5 animate-fade-up"
+                  key={step.num}
+                  style={{ animationDelay: `${0.3 + i * 0.1}s` }}
                 >
-                  <span className="font-mono-campus text-xs font-bold text-[#E76F51]">
-                    {number}
-                  </span>
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[hsl(var(--lc-accent)/0.12)] text-[hsl(var(--lc-accent))]">
+                    <step.icon size={18} />
+                  </div>
                   <div>
-                    <h2 className="font-display text-lg font-bold text-[#25423A]">
-                      {title}
+                    <span className="font-mono-campus text-[10px] font-bold text-[#E76F51]">
+                      STEP {step.num}
+                    </span>
+                    <h2 className="font-display text-lg font-bold text-[hsl(var(--lc-ink))]">
+                      {step.title}
                     </h2>
-                    <p className="mt-1 text-sm leading-5 text-[#71807A]">
-                      {detail}
+                    <p className="mt-1 text-sm leading-5 text-[hsl(var(--lc-muted))]">
+                      {step.detail}
                     </p>
                   </div>
                 </div>
@@ -277,7 +301,8 @@ function LandingPage() {
           </section>
         </div>
       </main>
-      <footer className="px-5 py-6 text-center font-mono-campus text-[10px] uppercase tracking-[.15em] text-[#8A9690]">
+
+      <footer className="relative z-10 px-5 py-6 text-center font-mono-campus text-[10px] uppercase tracking-[.15em] text-[hsl(var(--lc-muted))]">
         Abi Mizrak / Bou Saâda, Algeria
       </footer>
     </div>

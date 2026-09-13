@@ -1,5 +1,4 @@
 @layer theme, base, components, utilities;
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -23,9 +22,10 @@
   --glass-border: 0.24;
   --lc-shadow: 190 30% 15%;
   --radius: 1.35rem;
-  --app-font-sans: "DM Sans", system-ui, sans-serif;
+  --app-font-sans: "DM Sans", "Noto Kufi Arabic", system-ui, sans-serif;
   --app-font-mono: "Space Mono", ui-monospace, monospace;
-  --font-display: "Syne", system-ui, sans-serif;
+  --font-display: "Syne", "Noto Kufi Arabic", system-ui, sans-serif;
+  --font-arabic: "Noto Kufi Arabic", "DM Sans", system-ui, sans-serif;
 }
 
 * {
@@ -284,30 +284,193 @@ button:disabled {
 .preferences-switcher {
   display: inline-flex;
   align-items: center;
-  gap: .4rem;
-  padding: .28rem;
-  border: 1px solid hsl(var(--lc-line) / .7);
+  gap: .3rem;
+  padding: .25rem;
+  border: 1px solid hsl(var(--lc-line) / .6);
   border-radius: 999px;
   background: hsl(var(--glass-bg) / .42);
   box-shadow: 0 8px 24px hsl(var(--lc-shadow) / .08), inset 0 1px 0 hsl(0 0% 100% / .2);
   backdrop-filter: blur(16px);
-  transition: background .35s ease, border-color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background .5s cubic-bezier(.4,0,.2,1), border-color .5s cubic-bezier(.4,0,.2,1), transform .35s cubic-bezier(.2,.8,.2,1);
 }
 .preferences-switcher:hover { transform: translateY(-1px); }
-.preferences-control { display: inline-flex; align-items: center; gap: .25rem; padding: .35rem .5rem; color: hsl(var(--lc-muted)); }
-.preferences-control select { border: 0; outline: 0; background: transparent; color: inherit; font-family: var(--app-font-mono); font-size: .65rem; font-weight: 700; cursor: pointer; }
-.preferences-control option { background: hsl(var(--lc-surface)); color: hsl(var(--lc-ink)); }
-.preferences-theme { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 0; border-radius: 999px; color: hsl(var(--lc-ink)); background: hsl(var(--lc-accent) / .16); transition: transform .3s cubic-bezier(.2,.8,.2,1), background .3s ease; }
-.preferences-theme:hover { transform: rotate(12deg) scale(1.08); background: hsl(var(--lc-accent) / .3); }
+
+/* Language switcher */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: .15rem;
+  padding: .2rem;
+  border-radius: 999px;
+  background: hsl(var(--glass-bg) / .08);
+}
+.lang-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .3rem .45rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: hsl(var(--lc-muted));
+  font-family: var(--app-font-mono);
+  font-size: .62rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color .25s ease;
+  z-index: 1;
+}
+.lang-btn:hover { color: hsl(var(--lc-ink)); }
+.lang-btn-active { color: hsl(0 0% 100%); }
+.lang-flag { font-size: .85em; line-height: 1; }
+.lang-code { letter-spacing: .02em; }
+.lang-active-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, hsl(var(--lc-accent)), hsl(var(--lc-accent-2)));
+  z-index: -1;
+  box-shadow: 0 2px 8px hsl(var(--lc-accent) / .3);
+}
+
+/* Theme toggle */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 999px;
+  color: hsl(var(--lc-ink));
+  background: hsl(var(--lc-accent) / .14);
+  cursor: pointer;
+  overflow: hidden;
+  transition: background .3s ease, transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.theme-toggle-btn:hover {
+  transform: scale(1.1);
+  background: hsl(var(--lc-accent) / .28);
+}
+.theme-toggle-btn:active { transform: scale(0.92); }
+.theme-icon-wrap { display: flex; align-items: center; justify-content: center; }
+
+/* Compact variant */
+.preferences-switcher-compact .lang-flag { display: none; }
+.preferences-switcher-compact .lang-btn { padding: .3rem .4rem; }
 
 .landing-page { position: relative; overflow: hidden; color: hsl(var(--lc-ink)); background: radial-gradient(70% 70% at 12% 0%, hsl(var(--lc-accent) / .12), transparent 70%), radial-gradient(60% 60% at 90% 8%, hsl(var(--lc-warm) / .12), transparent 72%), hsl(var(--lc-canvas)); }
+
+/* Animated background orbs for landing page */
+.landing-orbs { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.landing-orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.35; }
+.landing-orb-1 { width: 32rem; height: 32rem; top: -10%; left: -12%; background: radial-gradient(circle, hsl(var(--lc-accent) / 0.3), transparent 70%); }
+.landing-orb-2 { width: 26rem; height: 26rem; bottom: -8%; right: -10%; background: radial-gradient(circle, hsl(var(--lc-warm) / 0.28), transparent 70%); }
+.landing-orb-3 { width: 22rem; height: 22rem; top: 40%; left: 50%; background: radial-gradient(circle, hsl(var(--lc-accent-2) / 0.22), transparent 70%); }
+.dark .landing-orb { opacity: 0.2; }
+.landing-steps { background: hsl(var(--lc-surface) / 0.5); }
 .landing-page::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .22; background-image: linear-gradient(hsl(var(--lc-line) / .18) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--lc-line) / .18) 1px, transparent 1px); background-size: 56px 56px; mask-image: linear-gradient(to bottom, black, transparent 82%); }
 .hero-gradient-text { background: linear-gradient(120deg, hsl(var(--lc-accent)), hsl(var(--lc-accent-2)), hsl(var(--lc-warm))); background-clip: text; -webkit-background-clip: text; color: transparent; }
 .hero-primary-button { color: hsl(var(--lc-canvas)); background: linear-gradient(135deg, hsl(var(--lc-accent)), hsl(var(--lc-accent-2))); box-shadow: 0 12px 30px hsl(var(--lc-accent) / .22); transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease; }
 .hero-primary-button:hover { transform: translateY(-3px); box-shadow: 0 18px 40px hsl(var(--lc-accent) / .34); }
 
-html, body, #root, .campus-shell { transition: background-color .45s ease, color .45s ease; }
-[dir="rtl"] { font-family: "Noto Sans Arabic", var(--app-font-sans); }
+html, body, #root, .campus-shell { transition: background-color .5s cubic-bezier(.4,0,.2,1), color .5s cubic-bezier(.4,0,.2,1); }
+[dir="rtl"] { font-family: var(--font-arabic); }
+[dir="rtl"] .font-display { font-family: var(--font-arabic); font-weight: 700; }
+
+/* ── View Transitions API for smooth theme switching ── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-old(root) {
+  animation-name: fade-out;
+}
+::view-transition-new(root) {
+  animation-name: fade-in;
+}
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+/* ── Theme transition overlay ── */
+.theme-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 100%;
+  transform: scale(0);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.theme-transition-overlay.active {
+  transform: scale(1);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.theme-transition-overlay.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease 0.2s;
+}
+
+/* ── Smooth global transitions for theme-aware properties ── */
+.landing-page, .liquid-surface, .liquid-panel, .paper-card, .preferences-switcher,
+.lc-icon-button, .lc-input, .hero-primary-button, .primary-cta, .secondary-cta {
+  transition: background 0.5s cubic-bezier(.4,0,.2,1), color 0.5s cubic-bezier(.4,0,.2,1),
+    border-color 0.5s cubic-bezier(.4,0,.2,1), box-shadow 0.5s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Enhanced entrance animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.97); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--lc-accent) / 0.2); }
+  50% { box-shadow: 0 0 0 12px hsl(var(--lc-accent) / 0); }
+}
+.animate-fade-up { animation: fadeUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.animate-fade-in { animation: fadeIn 0.6s ease both; }
+.animate-scale-in { animation: scaleIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.animate-float-orb { animation: floatOrb 18s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulseGlow 2.5s ease-in-out infinite; }
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+/* ── Gradient shimmer text ── */
+.shimmer-text {
+  background: linear-gradient(90deg, hsl(var(--lc-accent)), hsl(var(--lc-accent-2)), hsl(var(--lc-warm)), hsl(var(--lc-accent)));
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 4s linear infinite;
+}
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
 
 .reveal-3 {
