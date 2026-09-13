@@ -593,7 +593,13 @@ function CampusRouter({ status }: { status: VerificationStatus }) {
 }
 
 function AuthenticatedCampus() {
-  const { data, isLoading, isError, refetch } = useGetVerificationStatus();
+  const { isLoaded, isSignedIn } = useAuth();
+  const { data, isLoading, isError, refetch } = useGetVerificationStatus({
+    query: {
+      enabled: isLoaded && isSignedIn,
+      retry: 1,
+    },
+  });
   const status = data as VerificationStatus | undefined;
   if (isLoading)
     return (
