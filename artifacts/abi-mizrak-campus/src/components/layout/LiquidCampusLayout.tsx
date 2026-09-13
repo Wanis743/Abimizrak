@@ -23,6 +23,8 @@ type CampusSearchResult = {
 type CampusSearchResponse = { query: string; results: CampusSearchResult[] };
 import { ServerSidebar } from "./ServerSidebar";
 import { ChannelSidebar } from "./ChannelSidebar";
+import { PreferencesSwitcher } from "@/components/PreferencesSwitcher";
+import { usePreferences } from "@/i18n/runtime";
 
 export function LiquidCampusLayout({
   children,
@@ -34,6 +36,7 @@ export function LiquidCampusLayout({
   displayName: string;
 }) {
   const [location, navigate] = useLocation();
+  const { t } = usePreferences();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -114,12 +117,13 @@ export function LiquidCampusLayout({
             onClick={() => setCommandOpen(true)}
           >
             <Search size={16} />
-            <span>Search your campus</span>
+            <span>{t("search.placeholder")}</span>
             <kbd className="ml-6 rounded-md border border-[var(--lc-line)] px-2 py-0.5 text-[10px]">
               <Command size={10} className="mr-1 inline" />K
             </kbd>
           </button>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <PreferencesSwitcher compact />
             <div className="lc-eyebrow hidden xl:block">{displayName}</div>
             <button
               className="lc-icon-button relative"

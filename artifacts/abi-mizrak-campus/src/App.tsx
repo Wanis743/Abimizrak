@@ -120,6 +120,8 @@ import { IdentityPage } from "@/pages/identity";
 import { AdminVerificationPage } from "@/pages/admin-verification";
 import { TeacherWorkspace } from "@/components/TeacherWorkspace";
 import { LoadingState, ErrorState } from "@/pages/shared";
+import { PreferencesSwitcher } from "@/components/PreferencesSwitcher";
+import { usePreferences } from "@/i18n/runtime";
 
 const queryClient = new QueryClient();
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -185,11 +187,13 @@ function LogoMark() {
 }
 
 function LandingPage() {
+  const { t } = usePreferences();
   return (
-    <div className="campus-shell flex min-h-[100dvh] flex-col bg-[#F5F0E6]">
-      <header className="flex items-center justify-between border-b border-[#D9D1C2] px-5 py-5 md:px-12">
+    <div className="campus-shell landing-page flex min-h-[100dvh] flex-col">
+      <header className="flex items-center justify-between border-b border-[var(--lc-line)] px-5 py-5 md:px-12">
         <LogoMark />
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <PreferencesSwitcher compact />
           <Link
             href="/sign-in"
             className="rounded-xl px-4 py-2.5 text-sm font-bold text-[#59706A] hover:bg-[#E8EEE8]"
@@ -213,7 +217,7 @@ function LandingPage() {
               A private school community
             </div>
             <h1 className="max-w-3xl font-display text-5xl font-bold leading-[.98] tracking-[-.07em] text-[#18332C] md:text-7xl">
-              The lycée is <span className="text-[#216F58]">in motion.</span>
+              The lycée is <span className="hero-gradient-text">in motion.</span>
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-8 text-[#6C7D76]">
               Abi Mizrak brings classes, clubs, projects, and school identity
@@ -223,7 +227,7 @@ function LandingPage() {
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/sign-in"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#216F58] px-5 py-3.5 text-sm font-bold text-[#F5F0E6] shadow-[4px_4px_0_#D99A2B] hover:bg-[#1B5D4A]"
+                className="hero-primary-button inline-flex items-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold"
                 data-testid="button-landing-sign-in"
               >
                 Sign in to your campus <ArrowUpRight size={16} />
@@ -276,7 +280,7 @@ function LandingPage() {
         </div>
       </main>
       <footer className="px-5 py-6 text-center font-mono-campus text-[10px] uppercase tracking-[.15em] text-[#8A9690]">
-        Abi Mizrak / Tlemcen, Algeria
+        Abi Mizrak / Bou Saâda, Algeria
       </footer>
     </div>
   );
