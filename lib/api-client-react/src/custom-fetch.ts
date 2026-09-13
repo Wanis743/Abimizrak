@@ -104,7 +104,12 @@ export async function customFetch<T = unknown>(
     const token = await _authTokenGetter();
     if (token) headers.set("Authorization", `Bearer ${token}`);
   }
-  const response = await fetch(resolved, { ...init, method, headers });
+  const response = await fetch(resolved, {
+    ...init,
+    method,
+    headers,
+    credentials: init.credentials ?? "include",
+  });
   const data = await parseResponse(response, responseType);
   if (!response.ok)
     throw new ApiError(response, data as T | null, { method, url });
