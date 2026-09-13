@@ -20,6 +20,18 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname),
   build: { outDir: path.resolve(import.meta.dirname, "dist/public"), emptyOutDir: true },
-  server: { port, strictPort: true, host: process.env.VITE_HOST ?? "127.0.0.1", allowedHosts: ["localhost", "127.0.0.1", "::1"], fs: { strict: true } },
+  server: {
+    port,
+    strictPort: true,
+    host: process.env.VITE_HOST ?? "127.0.0.1",
+    allowedHosts: ["localhost", "127.0.0.1", "::1"],
+    fs: { strict: true },
+    proxy: {
+      "/api": {
+        target: process.env.API_PROXY_TARGET ?? "http://localhost:5000",
+        changeOrigin: true,
+      },
+    },
+  },
   preview: { port, host: process.env.VITE_HOST ?? "127.0.0.1", allowedHosts: ["localhost", "127.0.0.1", "::1"] },
 });
