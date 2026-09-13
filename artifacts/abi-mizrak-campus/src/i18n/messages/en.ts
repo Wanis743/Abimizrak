@@ -34,6 +34,20 @@ export const en = {
   "action.view": "View",
   "account.profile": "Profile",
   "account.signOut": "Sign out",
+  "account.signIn": "Sign in",
+  "account.create": "Create account",
+  "landing.eyebrow": "A private school community",
+  "landing.title": "The lycée is in motion.",
+  "landing.description": "Abi Mizrak brings classes, clubs, projects, and school identity into one trusted campus space — available only to verified members.",
+  "landing.signIn": "Sign in to your campus",
+  "landing.affiliation": "School affiliation is reviewed by administrators",
+  "landing.step1.title": "Sign in securely",
+  "landing.step1.detail": "Use your managed account to enter the campus.",
+  "landing.step2.title": "Request affiliation",
+  "landing.step2.detail": "Your membership and role are clearly marked while they are reviewed.",
+  "landing.step3.title": "Join the lycée",
+  "landing.step3.detail": "Approved members can access school spaces, activity, and their credential.",
+  "auth.campus": "Bou Saâda · Digital Campus",
 } as const;
 
 export type MessageKey = keyof typeof en;

@@ -16,8 +16,20 @@ type PreferencesContextValue = {
 const PreferencesContext = createContext<PreferencesContextValue | null>(null);
 
 function readStored<T extends string>(key: string, fallback: T, valid: readonly T[]) {
-  const value = window.localStorage.getItem(key) as T | null;
-  return value && valid.includes(value) ? value : fallback;
+  try {
+    const value = window.localStorage.getItem(key) as T | null;
+    return value && valid.includes(value) ? value : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeStored(key: string, value: string) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // Preferences still work when storage is unavailable.
+  }
 }
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
@@ -32,7 +44,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = locale;
     document.documentElement.dir = getDirection(locale);
     document.documentElement.dataset.locale = locale;
-    window.localStorage.setItem("abi-locale", locale);
+    writeStored("abi-locale", locale);
   }, [locale]);
 
   useEffect(() => {

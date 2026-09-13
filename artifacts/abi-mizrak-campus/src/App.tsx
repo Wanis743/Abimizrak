@@ -199,14 +199,14 @@ function LandingPage() {
             className="rounded-xl px-4 py-2.5 text-sm font-bold text-[#59706A] hover:bg-[#E8EEE8]"
             data-testid="link-sign-in"
           >
-            Sign in
+            {t("account.signIn")}
           </Link>
           <Link
             href="/sign-up"
             className="rounded-xl bg-[#216F58] px-4 py-2.5 text-sm font-bold text-[#F5F0E6] shadow-[3px_3px_0_#D99A2B] hover:bg-[#1B5D4A]"
             data-testid="link-sign-up"
           >
-            Create account
+            {t("account.create")}
           </Link>
         </div>
       </header>
@@ -214,15 +214,13 @@ function LandingPage() {
         <div className="grid w-full gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
           <section className="reveal">
             <div className="mb-4 font-mono-campus text-[10px] font-bold uppercase tracking-[.2em] text-[#E76F51]">
-              A private school community
+              {t("landing.eyebrow")}
             </div>
             <h1 className="max-w-3xl font-display text-5xl font-bold leading-[.98] tracking-[-.07em] text-[#18332C] md:text-7xl">
-              The lycée is <span className="hero-gradient-text">in motion.</span>
+              {t("landing.title")}
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-8 text-[#6C7D76]">
-              Abi Mizrak brings classes, clubs, projects, and school identity
-              into one trusted campus space — available only to verified
-              members.
+              {t("landing.description")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
@@ -230,11 +228,11 @@ function LandingPage() {
                 className="hero-primary-button inline-flex items-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold"
                 data-testid="button-landing-sign-in"
               >
-                Sign in to your campus <ArrowUpRight size={16} />
+                {t("landing.signIn")} <ArrowUpRight size={16} />
               </Link>
               <span className="inline-flex items-center gap-2 text-xs font-bold text-[#72817C]">
                 <ShieldCheck size={15} className="text-[#216F58]" />
-                School affiliation is reviewed by administrators
+                {t("landing.affiliation")}
               </span>
             </div>
           </section>
@@ -244,18 +242,18 @@ function LandingPage() {
               {[
                 [
                   "01",
-                  "Sign in securely",
-                  "Use your managed account to enter the campus.",
+                  t("landing.step1.title"),
+                  t("landing.step1.detail"),
                 ],
                 [
                   "02",
-                  "Request affiliation",
-                  "Your membership and role are clearly marked while they are reviewed.",
+                  t("landing.step2.title"),
+                  t("landing.step2.detail"),
                 ],
                 [
                   "03",
-                  "Join the lycée",
-                  "Approved members can access school spaces, activity, and their credential.",
+                  t("landing.step3.title"),
+                  t("landing.step3.detail"),
                 ],
               ].map(([number, title, detail]) => (
                 <div

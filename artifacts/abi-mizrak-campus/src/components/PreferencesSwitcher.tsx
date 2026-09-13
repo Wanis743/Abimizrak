@@ -2,11 +2,11 @@ import { Globe2, Moon, Sun } from "lucide-react";
 import { usePreferences } from "@/i18n/runtime";
 import type { Locale } from "@/i18n/types";
 
-const locales: { value: Locale; label: string }[] = [
-  { value: "en", label: "EN" },
-  { value: "fr", label: "FR" },
-  { value: "es", label: "ES" },
-  { value: "ar", label: "ع" },
+const locales: { value: Locale; label: string; message: "language.en" | "language.fr" | "language.es" | "language.ar" }[] = [
+  { value: "en", label: "EN", message: "language.en" },
+  { value: "fr", label: "FR", message: "language.fr" },
+  { value: "es", label: "ES", message: "language.es" },
+  { value: "ar", label: "ع", message: "language.ar" },
 ];
 
 export function PreferencesSwitcher({ compact = false }: { compact?: boolean }) {
