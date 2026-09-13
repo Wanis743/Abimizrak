@@ -144,13 +144,15 @@ export function SignIn({ routing, path, signUpUrl }: AuthScreenProps) {
   };
 
   return (
-    <div className="w-full max-w-sm rounded-[var(--m3-radius-xl)] bg-[hsl(var(--m3-surface))] p-8 shadow-[var(--shadow-m3-elevation-2)] border border-[hsl(var(--m3-outline-variant))]">
-      <h2 className="mb-6 text-center text-2xl font-bold text-[hsl(var(--m3-on-surface))]">
-        Welcome Back
-      </h2>
-      <form onSubmit={handleSignIn} className="flex flex-col gap-4">
+    <div className="w-full max-w-md rounded-[28px] border border-[#D9D1C2] bg-[#FFFDF8] p-6 shadow-[0_24px_70px_rgba(24,51,44,.12)] sm:p-8">
+      <div className="mb-7">
+        <div className="font-mono-campus text-[10px] font-bold uppercase tracking-[.18em] text-[#E76F51]">Private campus access</div>
+        <h2 className="mt-2 font-display text-3xl font-bold tracking-[-.05em] text-[#18332C]">Welcome back</h2>
+        <p className="mt-2 text-sm leading-6 text-[#6C7D76]">Sign in to continue to your school community.</p>
+      </div>
+      <form onSubmit={handleSignIn} className="flex flex-col gap-5">
         <div>
-          <label className="text-sm font-medium text-[hsl(var(--m3-on-surface))]">
+          <label className="text-sm font-bold text-[#18332C]">
             Email
           </label>
           <input
@@ -158,11 +160,11 @@ export function SignIn({ routing, path, signUpUrl }: AuthScreenProps) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="mt-1 w-full rounded-[var(--m3-radius-md)] border border-[hsl(var(--m3-outline))] bg-[hsl(var(--m3-surface-variant))] px-4 py-3 text-sm text-[hsl(var(--m3-on-surface))] outline-none focus:border-[hsl(var(--m3-primary))] transition-colors"
+            className="mt-2 w-full rounded-xl border border-[#CFC7B8] bg-[#F7F2E9] px-4 py-3.5 text-sm text-[#18332C] outline-none transition-colors placeholder:text-[#9A9A8F] focus:border-[#216F58] focus:ring-4 focus:ring-[#216F58]/10"
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-[hsl(var(--m3-on-surface))]">
+          <label className="text-sm font-bold text-[#18332C]">
             Password
           </label>
           <input
@@ -170,24 +172,24 @@ export function SignIn({ routing, path, signUpUrl }: AuthScreenProps) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="mt-1 w-full rounded-[var(--m3-radius-md)] border border-[hsl(var(--m3-outline))] bg-[hsl(var(--m3-surface-variant))] px-4 py-3 text-sm text-[hsl(var(--m3-on-surface))] outline-none focus:border-[hsl(var(--m3-primary))] transition-colors"
+            className="mt-2 w-full rounded-xl border border-[#CFC7B8] bg-[#F7F2E9] px-4 py-3.5 text-sm text-[#18332C] outline-none transition-colors placeholder:text-[#9A9A8F] focus:border-[#216F58] focus:ring-4 focus:ring-[#216F58]/10"
           />
         </div>
         {error && (
-          <p className="text-sm text-[hsl(var(--m3-error))]">{error}</p>
+          <p className="text-sm text-[#B42318]">{error}</p>
         )}
         <button
           type="submit"
-          className="mt-4 rounded-[var(--m3-radius-md)] bg-[hsl(var(--m3-primary))] py-3 text-center font-bold text-[hsl(var(--m3-on-primary))] hover:bg-[hsl(var(--m3-primary))]/90 transition-colors"
+          className="mt-2 rounded-xl bg-[#216F58] py-3.5 text-center font-bold text-[#F5F0E6] shadow-[3px_3px_0_#D99A2B] transition hover:bg-[#1B5D4A] hover:translate-y-[-1px]"
         >
           Sign In
         </button>
       </form>
-      <div className="mt-6 text-center text-sm text-[hsl(var(--m3-on-surface-variant))]">
+      <div className="mt-6 text-center text-sm text-[#6C7D76]">
         Don't have an account?{" "}
         <a
           href={signUpUrl}
-          className="font-bold text-[hsl(var(--m3-primary))] hover:underline"
+          className="font-bold text-[#216F58] hover:underline"
         >
           Sign up
         </a>
@@ -222,17 +224,17 @@ export function SignUp({ routing, path, signInUrl }: AuthScreenProps) {
 
   if (success) {
     return (
-      <div className="w-full max-w-sm rounded-[var(--m3-radius-xl)] bg-[hsl(var(--m3-surface))] p-8 text-center shadow-[var(--shadow-m3-elevation-2)] border border-[hsl(var(--m3-outline-variant))]">
+      <div className="w-full max-w-md rounded-[28px] border border-[#D9D1C2] bg-[#FFFDF8] p-6 text-center shadow-[0_24px_70px_rgba(24,51,44,.12)] sm:p-8">
         <h2 className="mb-4 text-xl font-bold text-[hsl(var(--m3-on-surface))]">
           Check your email
         </h2>
-        <p className="text-[hsl(var(--m3-on-surface-variant))]">
+        <p className="text-[#6C7D76]">
           We've sent a confirmation link to {email}. Please verify your email to
           continue.
         </p>
         <a
           href={signInUrl}
-          className="mt-6 block font-bold text-[hsl(var(--m3-primary))] hover:underline"
+          className="mt-6 block font-bold text-[#216F58] hover:underline"
         >
           Return to sign in
         </a>
@@ -241,13 +243,15 @@ export function SignUp({ routing, path, signInUrl }: AuthScreenProps) {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-[var(--m3-radius-xl)] bg-[hsl(var(--m3-surface))] p-8 shadow-[var(--shadow-m3-elevation-2)] border border-[hsl(var(--m3-outline-variant))]">
-      <h2 className="mb-6 text-center text-2xl font-bold text-[hsl(var(--m3-on-surface))]">
-        Create Account
-      </h2>
-      <form onSubmit={handleSignUp} className="flex flex-col gap-4">
+    <div className="w-full max-w-md rounded-[28px] border border-[#D9D1C2] bg-[#FFFDF8] p-6 shadow-[0_24px_70px_rgba(24,51,44,.12)] sm:p-8">
+      <div className="mb-7">
+        <div className="font-mono-campus text-[10px] font-bold uppercase tracking-[.18em] text-[#E76F51]">Join the community</div>
+        <h2 className="mt-2 font-display text-3xl font-bold tracking-[-.05em] text-[#18332C]">Create your account</h2>
+        <p className="mt-2 text-sm leading-6 text-[#6C7D76]">Set up your school identity to request campus access.</p>
+      </div>
+      <form onSubmit={handleSignUp} className="flex flex-col gap-5">
         <div>
-          <label className="text-sm font-medium text-[hsl(var(--m3-on-surface))]">
+          <label className="text-sm font-bold text-[#18332C]">
             Full Name
           </label>
           <input
@@ -255,11 +259,11 @@ export function SignUp({ routing, path, signInUrl }: AuthScreenProps) {
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             required
-            className="mt-1 w-full rounded-[var(--m3-radius-md)] border border-[hsl(var(--m3-outline))] bg-[hsl(var(--m3-surface-variant))] px-4 py-3 text-sm text-[hsl(var(--m3-on-surface))] outline-none focus:border-[hsl(var(--m3-primary))] transition-colors"
+            className="mt-2 w-full rounded-xl border border-[#CFC7B8] bg-[#F7F2E9] px-4 py-3.5 text-sm text-[#18332C] outline-none transition-colors placeholder:text-[#9A9A8F] focus:border-[#216F58] focus:ring-4 focus:ring-[#216F58]/10"
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-[hsl(var(--m3-on-surface))]">
+          <label className="text-sm font-bold text-[#18332C]">
             Email
           </label>
           <input
@@ -267,11 +271,11 @@ export function SignUp({ routing, path, signInUrl }: AuthScreenProps) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="mt-1 w-full rounded-[var(--m3-radius-md)] border border-[hsl(var(--m3-outline))] bg-[hsl(var(--m3-surface-variant))] px-4 py-3 text-sm text-[hsl(var(--m3-on-surface))] outline-none focus:border-[hsl(var(--m3-primary))] transition-colors"
+            className="mt-2 w-full rounded-xl border border-[#CFC7B8] bg-[#F7F2E9] px-4 py-3.5 text-sm text-[#18332C] outline-none transition-colors placeholder:text-[#9A9A8F] focus:border-[#216F58] focus:ring-4 focus:ring-[#216F58]/10"
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-[hsl(var(--m3-on-surface))]">
+          <label className="text-sm font-bold text-[#18332C]">
             Password
           </label>
           <input
@@ -280,24 +284,24 @@ export function SignUp({ routing, path, signInUrl }: AuthScreenProps) {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            className="mt-1 w-full rounded-[var(--m3-radius-md)] border border-[hsl(var(--m3-outline))] bg-[hsl(var(--m3-surface-variant))] px-4 py-3 text-sm text-[hsl(var(--m3-on-surface))] outline-none focus:border-[hsl(var(--m3-primary))] transition-colors"
+            className="mt-2 w-full rounded-xl border border-[#CFC7B8] bg-[#F7F2E9] px-4 py-3.5 text-sm text-[#18332C] outline-none transition-colors placeholder:text-[#9A9A8F] focus:border-[#216F58] focus:ring-4 focus:ring-[#216F58]/10"
           />
         </div>
         {error && (
-          <p className="text-sm text-[hsl(var(--m3-error))]">{error}</p>
+          <p className="text-sm text-[#B42318]">{error}</p>
         )}
         <button
           type="submit"
-          className="mt-4 rounded-[var(--m3-radius-md)] bg-[hsl(var(--m3-primary))] py-3 text-center font-bold text-[hsl(var(--m3-on-primary))] hover:bg-[hsl(var(--m3-primary))]/90 transition-colors"
+          className="mt-2 rounded-xl bg-[#216F58] py-3.5 text-center font-bold text-[#F5F0E6] shadow-[3px_3px_0_#D99A2B] transition hover:bg-[#1B5D4A] hover:translate-y-[-1px]"
         >
           Sign Up
         </button>
       </form>
-      <div className="mt-6 text-center text-sm text-[hsl(var(--m3-on-surface-variant))]">
+      <div className="mt-6 text-center text-sm text-[#6C7D76]">
         Already have an account?{" "}
         <a
           href={signInUrl}
-          className="font-bold text-[hsl(var(--m3-primary))] hover:underline"
+          className="font-bold text-[#216F58] hover:underline"
         >
           Sign in
         </a>

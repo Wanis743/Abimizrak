@@ -620,12 +620,14 @@ function AuthenticatedCampus() {
 
 function SignInPage() {
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-5 bg-[#F5F0E6] px-4 py-10">
-      <img
-        src={`${basePath}/school-logo-mark.png`}
-        alt="Lycée Abi Mizrak El-Mezrani"
-        className="h-28 w-28 object-contain md:h-36 md:w-36"
-      />
+    <div className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-[#F5F0E6] px-4 py-10">
+      <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full border-[38px] border-[#D99A2B]/20" />
+      <div className="pointer-events-none absolute -bottom-32 -right-24 h-80 w-80 rounded-full border-[42px] border-[#216F58]/15" />
+      <div className="relative z-10 mb-6 text-center">
+        <img src={`${basePath}/school-logo-mark.png`} alt="Lycée Abi Mizrak El-Mezrani" className="mx-auto h-20 w-20 object-contain" />
+        <div className="mt-3 font-display text-lg font-bold tracking-[-.04em] text-[#18332C]">Lycée Abi Mizrak</div>
+        <div className="mt-1 font-mono-campus text-[9px] uppercase tracking-[.18em] text-[#6C7D76]">Bou Saâda · Digital Campus</div>
+      </div>
       <SignIn
         routing="path"
         path={`${basePath}/sign-in`}
@@ -637,12 +639,14 @@ function SignInPage() {
 
 function SignUpPage() {
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-5 bg-[#F5F0E6] px-4 py-10">
-      <img
-        src={`${basePath}/school-logo-mark.png`}
-        alt="Lycée Abi Mizrak El-Mezrani"
-        className="h-28 w-28 object-contain md:h-36 md:w-36"
-      />
+    <div className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-[#F5F0E6] px-4 py-10">
+      <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full border-[38px] border-[#D99A2B]/20" />
+      <div className="pointer-events-none absolute -bottom-32 -right-24 h-80 w-80 rounded-full border-[42px] border-[#216F58]/15" />
+      <div className="relative z-10 mb-6 text-center">
+        <img src={`${basePath}/school-logo-mark.png`} alt="Lycée Abi Mizrak El-Mezrani" className="mx-auto h-20 w-20 object-contain" />
+        <div className="mt-3 font-display text-lg font-bold tracking-[-.04em] text-[#18332C]">Lycée Abi Mizrak</div>
+        <div className="mt-1 font-mono-campus text-[9px] uppercase tracking-[.18em] text-[#6C7D76]">Bou Saâda · Digital Campus</div>
+      </div>
       <SignUp
         routing="path"
         path={`${basePath}/sign-up`}
