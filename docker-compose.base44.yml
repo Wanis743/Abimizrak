@@ -43,9 +43,9 @@ services:
     image: postgres:16-alpine
     environment:
       PGPASSWORD: campus
-    command: psql postgresql://campus:campus@db:5432/campus -f /seed.sql
-    volumes:
-      - ./supabase/migrations/20260908005117_seed_abi_mizrak_school.sql:/seed.sql:ro
+    command: >-
+      psql postgresql://campus:campus@db:5432/campus -c
+      "INSERT INTO schools (id, name_ar, name_fr, name_en, code) VALUES ('abi-mizrak', 'ثانوية أبي مزراق المقراني', 'Lycée Abi Mizrak El Mokrani', 'Lycée Abi Mizrak', 'ABI-MIZRAK') ON CONFLICT (id) DO NOTHING"
     depends_on:
       migrate:
         condition: service_completed_successfully
